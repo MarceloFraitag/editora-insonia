@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#180a1b">
+  <meta name="description" content="Editora Insônia: um universo de histórias intensas para quem lê depois da meia-noite. Conheça o catálogo de livros físicos.">
+  <title>Editora Insônia — Histórias que não te deixam dormir</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="catalog.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <div class="announcement">
+    <span class="announcement-symbol" aria-hidden="true">✦</span>
+    <span>Histórias para quem não tem medo da madrugada.</span>
+    <span class="announcement-symbol" aria-hidden="true">✦</span>
+    <span class="preview-label">PRÉVIA DA LOJA · V5</span>
+  </div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#inicio" aria-label="Editora Insônia, início">
+        <img src="assets/insomnia-logotype.svg" alt="Editora Insônia">
+      </a>
+      <button class="menu-toggle icon-button" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Abrir menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <nav class="main-nav" id="main-nav" aria-label="Navegação principal">
+        <a href="#inicio">Início</a>
+        <a href="#catalogo">Catálogo</a>
+        <a href="#universo">Nosso universo</a>
+        <a href="#informacoes">Informações</a>
+      </nav>
+      <div class="header-actions">
+        <button class="header-action favorites-shortcut" id="favorites-shortcut" type="button" aria-label="Ver livros favoritos">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg>
+          <span class="header-action-text">Favoritos</span><span class="counter favorites-count" hidden>0</span>
+        </button>
+        <button class="header-action cart-shortcut" id="open-cart" type="button" aria-label="Abrir sacola, 0 itens" aria-haspopup="dialog">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16l-1.5 12h-13L4 8ZM9 9V6a3 3 0 0 1 6 0v3"/></svg>
+          <span class="header-action-text">Sacola</span><span class="counter cart-count">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <section class="hero" id="inicio" aria-labelledby="hero-title">
+      <div class="hero-grain" aria-hidden="true"></div>
+      <div class="hero-orb" aria-hidden="true"><span>☾</span></div>
+      <div class="hero-container">
+        <div class="hero-copy">
+          <p class="eyebrow eyebrow-light"><span class="eyebrow-line"></span> EDITORA INSÔNIA APRESENTA</p>
+          <h1 id="hero-title">A noite é longa.<br><em>As histórias</em><br>também.</h1>
+          <p class="hero-description">Para quem se apaixona pelo perigo, se perde nos segredos e promete ler só mais um capítulo.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#catalogo">Explorar livros físicos <span aria-hidden="true">↗</span></a>
+            <a class="text-link" href="#universo">Conhecer a editora <span aria-hidden="true">→</span></a>
+          </div>
+          <div class="hero-annotation"><span class="moon-mark" aria-hidden="true">☾</span><span>Seu próximo vício literário começa aqui.</span></div>
+        </div>
+        <div class="hero-art">
+          <div class="hero-art-ring" aria-hidden="true"></div>
+          <span class="hero-art-star one" aria-hidden="true">✦</span><span class="hero-art-star two" aria-hidden="true">✧</span>
+          <!-- Capa conceitual reproduzida em CSS a partir da V3; não é a arte oficial da obra. -->
+          <div class="book-3d">
+            <div class="book-spine" aria-hidden="true"></div>
+            <div class="book-cover concept-cover" role="img" aria-label="Representação ilustrativa em CSS de Gargoyle Love; não é a capa oficial">
+              <span class="cover-kicker">TRILOGIA GARGOYLE<br>LIVRO DOIS</span>
+              <span class="cover-title">GARGOYLE<br><b>LOVE</b></span>
+              <span class="cover-flower" aria-hidden="true"></span>
+              <span class="cover-author">SABINE VECCHI</span>
+              <span class="cover-imprint">EDITORA<br><b>INSÔNIA</b></span>
+            </div>
+          </div>
+          <div class="featured-chip"><span class="featured-dot"></span><div><small>NA NOSSA ESTANTE</small><strong>Gargoyle Love</strong><span>Sabine Vecchi · Livro 2</span></div></div>
+          <p class="art-disclaimer">CAPA ILUSTRATIVA · SUBSTITUIR PELA OFICIAL</p>
+        </div>
+      </div>
+      <div class="hero-bottom-stroke" aria-hidden="true"></div>
+    </section>
+
+    <div class="marquee" aria-hidden="true"><div class="marquee-inner">ROMANCES SOMBRIOS <span>✳</span> UNIVERSOS INTENSOS <span>✳</span> NOITES SEM FIM <span>✳</span> ROMANCES SOMBRIOS <span>✳</span> UNIVERSOS INTENSOS</div></div>
+
+    <section class="catalog-section section-wrap" id="catalogo" aria-labelledby="catalog-title">
+      <div class="section-intro">
+        <div><p class="eyebrow">01 / CATÁLOGO</p><h2 id="catalog-title">Escolha sua próxima <em>obsessão.</em></h2><p>Livros físicos para ocupar sua estante — e os seus pensamentos.</p></div>
+        <span class="section-sigil" aria-hidden="true">✶</span>
+      </div>
+      <div class="catalog-toolbar">
+        <div class="filter-group" role="group" aria-label="Filtrar catálogo">
+          <button class="filter-button is-active" type="button" data-filter="todos" aria-pressed="true">Todos <span class="filter-count" id="all-count">3</span></button>
+          <button class="filter-button" type="button" data-filter="previs" aria-pressed="false">Com preço</button>
+          <button class="filter-button" type="button" data-filter="breve" aria-pressed="false">Em breve</button>
+          <button class="filter-button" type="button" data-filter="favoritos" aria-pressed="false">♡ Favoritos</button>
+        </div>
+        <label class="catalog-search"><span class="sr-only">Buscar livros</span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.5 4.5"/></svg><input id="search-books" type="search" placeholder="Buscar por título ou autora" autocomplete="off"></label>
+      </div>
+      <p class="catalog-feedback" id="catalog-feedback" aria-live="polite"></p>
+      <div class="product-grid" id="product-grid"></div>
+      <div class="catalog-empty" id="catalog-empty" hidden><span aria-hidden="true">☾</span><h3>Nenhum livro encontrado.</h3><p>Tente outra busca ou volte ao catálogo completo.</p><button type="button" class="button button-outline" id="reset-filters">Ver todos os livros</button></div>
+      <p class="catalog-disclaimer"><span aria-hidden="true">ⓘ</span> Catálogo conceitual: somente Gargoyle Love possui preço de exemplo herdado da V3. Não há vendas ou disponibilidade confirmadas nesta prévia.</p>
+    </section>
+
+    <section class="manifesto" id="universo" aria-labelledby="manifesto-title">
+      <div class="manifesto-left"><span class="manifesto-ornament" aria-hidden="true">☽</span><p class="eyebrow">02 / QUEM SOMOS</p><h2 id="manifesto-title">Feita para leitores que <em>vivem cada página.</em></h2><p>A Editora Insônia é um espaço para histórias que desafiam o óbvio. Universos intensos, personagens inesquecíveis e aquele capítulo que faz a noite virar manhã.</p><a href="#autora" class="text-link">Conheça uma das nossas autoras <span aria-hidden="true">↗</span></a></div>
+      <div class="manifesto-right"><div class="manifesto-quote"><span aria-hidden="true">“</span><blockquote>Existem histórias que não terminam quando você fecha o livro.</blockquote><p>ELAS CONTINUAM COM VOCÊ.</p></div><div class="moon-divider" aria-hidden="true">☾ ────── ✦ ────── ☽</div></div>
+    </section>
+
+    <section class="author-section section-wrap" id="autora" aria-labelledby="author-title">
+      <div class="author-icon" aria-hidden="true">✒</div>
+      <div class="author-copy"><p class="eyebrow">03 / POR TRÁS DAS PÁGINAS</p><h2 id="author-title">Sabine Vecchi</h2><p>Romances sombrios, personagens intensos e narrativas que prendem até a última página. Conheça a autora da Trilogia Gargoyle.</p><a class="button button-outline" href="#catalogo">Explorar a trilogia <span aria-hidden="true">↗</span></a></div>
+      <div class="author-aside"><small>EM DESTAQUE</small><strong>Trilogia<br>Gargoyle</strong><span>Um universo. Três histórias.</span></div>
+    </section>
+
+    <section class="info-section" id="informacoes" aria-labelledby="info-title">
+      <div class="section-wrap">
+        <div class="section-intro slim"><div><p class="eyebrow">04 / A EXPERIÊNCIA</p><h2 id="info-title">Uma loja para a <em>vida real.</em></h2><p>O design já prevê os principais passos de uma compra. A integração será feita no WordPress com WooCommerce.</p></div></div>
+        <div class="info-grid">
+          <article class="info-tile"><span aria-hidden="true">01</span><div><h3>Escolha seus livros</h3><p>Catálogo físico, preços, detalhes e favoritos, com gestão de produtos pelo painel da editora.</p></div></article>
+          <article class="info-tile"><span aria-hidden="true">02</span><div><h3>Monte sua sacola</h3><p>Quantidades, subtotal e resumo do pedido. A sacola de demonstração fica salva neste navegador.</p></div></article>
+          <article class="info-tile"><span aria-hidden="true">03</span><div><h3>Finalize com segurança</h3><p>Frete por CEP, pagamento e pedidos serão habilitados apenas na versão oficial do WooCommerce.</p></div></article>
+        </div>
+        <div class="faq-block">
+          <div><p class="eyebrow">PERGUNTAS RÁPIDAS</p><h3>Antes da meia-noite, <em>algumas respostas.</em></h3></div>
+          <div class="faq-items">
+            <details><summary>Já posso comprar algum livro por aqui? <span aria-hidden="true">+</span></summary><p>Ainda não. Esta é uma prévia navegável do site. A sacola e o resumo do pedido não recebem pagamentos nem enviam encomendas.</p></details>
+            <details><summary>Como o frete será calculado? <span aria-hidden="true">+</span></summary><p>Na loja oficial, o frete dependerá do CEP, peso, dimensões e das transportadoras configuradas no WooCommerce. Nenhuma tarifa é simulada nesta versão.</p></details>
+            <details><summary>A editora poderá cadastrar novos livros? <span aria-hidden="true">+</span></summary><p>Sim. A implantação vai utilizar o catálogo de produtos do WooCommerce, para administrar títulos, capas, estoque e valores sem alterar o código do site.</p></details>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-top section-wrap">
+      <div class="footer-identity"><a class="brand footer-brand" href="#inicio"><img src="assets/insomnia-logotype.svg" alt="Editora Insônia"></a><p>Para quem se perde nas páginas<br>e se encontra na madrugada.</p></div>
+      <div class="footer-links"><h3>Explorar</h3><a href="#inicio">Início</a><a href="#catalogo">Livros físicos</a><a href="#universo">A editora</a><a href="#autora">Autoras</a></div>
+      <div class="footer-links"><h3>Loja oficial</h3><span>Atendimento, políticas, CNPJ e contato serão publicados após validação com a editora.</span></div>
+      <div class="footer-quote">LEIA ATÉ TARDE.<br><em>SONHE MAIS ALTO.</em><span aria-hidden="true">✶</span></div>
+    </div>
+    <div class="footer-bottom section-wrap"><span>© 2026 Editora Insônia · Protótipo visual V5</span><span class="footer-phases" aria-hidden="true">☾ ◔ ● ◕ ☽</span><a href="#inicio">Voltar ao topo ↑</a></div>
+    <div class="watcher" aria-hidden="true"><span class="watcher-orbit"></span><img src="assets/eye-pointer.png" alt=""></div>
+  </footer>
+
+  <!-- Sacola demonstrativa: nenhuma compra ou dado é transmitido. -->
+  <div class="drawer-overlay" id="cart-overlay" hidden></div>
+  <aside class="cart-drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" tabindex="-1" hidden>
+    <div class="drawer-header"><div><p class="eyebrow">SUAS PRÓXIMAS LEITURAS</p><h2 id="drawer-title">Minha sacola <span id="drawer-item-count">(0)</span></h2></div><button type="button" class="icon-button close-button" id="close-cart" aria-label="Fechar sacola">×</button></div>
+    <div class="drawer-body"><div class="cart-empty-state" id="cart-empty-state"><span aria-hidden="true">☾</span><h3>Sua sacola está vazia.</h3><p>Tem uma história esperando por você.</p><button type="button" class="button button-outline" id="empty-browse">Explorar o catálogo</button></div><ul class="drawer-items" id="drawer-items" aria-label="Livros na sacola"></ul></div>
+    <div class="drawer-footer" id="drawer-footer" hidden><div class="subtotal-line"><span>Subtotal</span><strong id="drawer-subtotal">R$ 0,00</strong></div><div class="shipping-note">Frete e prazo serão calculados na loja oficial.</div><button class="button button-primary checkout-trigger" type="button" id="open-checkout">Ver resumo do pedido <span aria-hidden="true">→</span></button><p>Prévia interativa: nenhum pagamento será realizado.</p></div>
+  </aside>
+
+  <div class="modal-overlay" id="modal-overlay" hidden></div>
+  <section class="product-modal" id="product-modal" role="dialog" aria-modal="true" aria-labelledby="product-modal-title" tabindex="-1" hidden><button class="icon-button modal-close" type="button" data-close-modal aria-label="Fechar detalhes">×</button><div id="product-modal-content"></div></section>
+  <section class="checkout-modal" id="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkout-title" tabindex="-1" hidden><button class="icon-button modal-close" type="button" data-close-modal aria-label="Fechar resumo">×</button><div class="checkout-inner"><p class="eyebrow">SIMULAÇÃO · SEM PAGAMENTO</p><h2 id="checkout-title">Resumo do pedido</h2><p class="checkout-description">Aqui você vê como a etapa anterior ao checkout funcionará. A conclusão da compra ficará por conta do WooCommerce.</p><div id="checkout-items"></div><div class="checkout-totals"><div><span>Subtotal dos livros</span><strong id="checkout-subtotal"></strong></div><div><span>Frete</span><strong>A calcular</strong></div><div><span>Total final</span><strong>Definido na loja oficial</strong></div></div><div class="checkout-warning"><span aria-hidden="true">ⓘ</span><p>Não solicitamos nome, endereço ou cartão nesta prévia. Nenhum pedido será enviado ou cobrado.</p></div><button class="button button-muted" type="button" disabled>Finalizar compra · disponível no lançamento</button><button type="button" class="text-link checkout-back" id="back-to-cart">← Voltar para a sacola</button></div></section>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
