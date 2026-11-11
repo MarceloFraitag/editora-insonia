@@ -6,12 +6,12 @@
 
 - **WordPress:** CMS e publicação de conteúdo editorial.
 - **WooCommerce:** produtos físicos, catálogo, atributos, estoque, carrinho, checkout, impostos/frete e pedidos.
-- **Tema próprio ou tema filho:** traduzir o HTML/CSS da V5 para templates do WordPress e estilos de blocos/áreas WooCommerce compatíveis.
+- **Tema próprio ou tema filho:** traduzir o HTML/CSS da V6.3 para templates do WordPress e estilos de blocos/áreas WooCommerce compatíveis.
 - **Plugins de pagamento e entrega:** escolher provedores compatíveis após confirmar CNPJ, logística e conta da editora. Nunca colocar credenciais no tema.
 
 ## 2. Mapeamento do protótipo
 
-| V5 estática | Origem futura | Implementação |
+| Protótipo estático | Origem futura | Implementação |
 |---|---|---|
 | `catalog.js` | Produtos WooCommerce | Título, preço, SKU real, descrição, imagens, categorias e atributos |
 | Cards de produto | Loop de produtos WooCommerce | Template de catálogo ou componentes de blocos |
@@ -20,7 +20,7 @@
 | Sacola `localStorage` | Carrinho WooCommerce | **Substituir**, não compartilhar estados paralelos |
 | Resumo de demonstração | Checkout WooCommerce | **Substituir**, com gateway, frete e pedidos reais |
 | Filtros/busca | Busca e taxonomias WP/Woo | Filtros do catálogo com URLs navegáveis |
-| Espaços de capa CSS | Biblioteca de mídia WP | Arquivos oficiais licenciados da editora |
+| Capas e cartas em assets | Biblioteca de mídia WP | Arquivos oficiais licenciados da editora |
 | Texto institucional | Páginas WordPress | Editor visual e campos configuráveis |
 
 ## 3. Cadastro inicial de produtos
@@ -29,7 +29,7 @@ Validar para cada livro: nome, autor, gênero, descrição, ISBN/EAN (se dispon�
 
 **Gargoyle Love:** a data 15/03/2027 está na V3 recebida. Em novembro/2026, é uma data futura. **Não habilitar venda antecipada automaticamente.** Caso a editora queira pré-venda no futuro, definir regras específicas de disponibilidade, entrega e informação ao cliente.
 
-**Gargoyle Game e volume 3:** a V5 não apresenta preços ou disponibilidade por falta de dados oficiais.
+**Gargoyle Game e volume 3:** o protótipo não apresenta preços ou disponibilidade por falta de dados oficiais.
 
 ## 4. Fluxo de compra real
 

@@ -1,0 +1,11 @@
+# Arquivos locais
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.log
+*.zip
+__pycache__/
+node_modules/
+.env
+.env.*
+!.env.example

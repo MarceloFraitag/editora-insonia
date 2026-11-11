@@ -1,4 +1,4 @@
-/* Editora Insônia V5 — identidade derivada da V3, sem bibliotecas externas. */
+/* Editora Insônia V6.3 — identidade derivada da V3, sem bibliotecas externas. */
 :root {
   --night:#120915;
   --plum:#210d23;
@@ -191,7 +191,8 @@ svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.7;stroke
 .manifesto-quote>span{display:block;color:#f29cd7;font-size:70px;line-height:.75}
 .manifesto-quote blockquote{margin:12px 0 20px;font:italic 31px/1.45 var(--serif);letter-spacing:-.025em}
 .manifesto-quote p{font:10px var(--sans);letter-spacing:.25em;color:#efafd8}
-.moon-divider{position:absolute;bottom:35px;font-size:20px;letter-spacing:.17em;color:#de8abf}
+/* Ornamento no fluxo para acompanhar a altura do texto, inclusive no celular. */
+.moon-divider{position:relative;margin-top:24px;max-width:100%;font-size:clamp(12px,3.5vw,20px);letter-spacing:.17em;color:#de8abf;text-align:center;line-height:1.4}
 .author-section{display:grid;grid-template-columns:230px 1fr 260px;align-items:center;gap:40px;padding-block:94px}
 .author-icon{height:200px;border:1px solid #d58db963;display:grid;place-items:center;border-radius:50% 50% 8px 8px;font-size:110px;color:#e8b2d7;background:radial-gradient(ellipse at 50% 30%,#b5489426,transparent 80%)}
 .author-copy h2{font-size:48px;font-weight:400;line-height:1.15;margin:0 0 14px}
@@ -417,3 +418,27 @@ svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.7;stroke
   .checkout-totals>div{font-size:12px}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+
+/* Cartas: hover, teclado e toque. */
+.tarot-flip{display:block;position:relative;width:210px;max-width:60vw;height:330px;margin:auto;padding:0;border:0;background:transparent;color:var(--text,#f7edf3);cursor:pointer;perspective:1100px;z-index:1}
+.tarot-inner{display:block;position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.tarot-face{position:absolute;inset:0;display:block;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:12px;overflow:hidden;box-shadow:0 12px 30px #0008;background:#09060a}
+.tarot-face img{width:100%;height:100%;object-fit:cover;display:block}
+.tarot-reverse{transform:rotateY(180deg)}
+.tarot-flip.is-flipped .tarot-inner{transform:rotateY(180deg)}
+.tarot-flip:focus-visible{outline:2px solid #e4b6d7;outline-offset:7px;border-radius:12px}
+.tarot-hint{position:absolute;bottom:-25px;left:0;right:0;font-size:11px;letter-spacing:.08em;color:#ddbdd4}
+@media(hover:hover) and (pointer:fine){.tarot-flip:hover .tarot-inner{transform:rotateY(180deg)}}
+@media(prefers-reduced-motion:reduce){.tarot-inner{transition:none}}
+.tarot-flip{width:160px;height:260px}.tarot-face img{object-fit:contain}.product-tag,.product-favorite{z-index:3}
+
+/* V6.1: enquadramento das cartas sem a margem branca do arquivo. */
+.tarot-flip{width:160px;height:276px}
+.tarot-face{border-radius:13px;background:#000}
+.tarot-face.is-tarot img{position:absolute;width:112%;height:108%;max-width:none;left:-6%;top:-4%;object-fit:fill}
+.tarot-face.is-tarot::after{content:"";position:absolute;inset:0;border:1px solid #000;border-radius:inherit;pointer-events:none}
+.tarot-face.is-book{border-radius:2px}
+.tarot-face.is-book img{object-fit:cover}
+.official-cover{display:block;width:100%;height:100%;object-fit:cover;border:1px solid #bd619280}
+.trope-list{display:flex;flex-wrap:wrap;gap:7px;padding:0;margin:18px 0;list-style:none}
+.trope-list li{font:600 10px var(--sans);letter-spacing:.05em;text-transform:uppercase;color:#efb6d9;border:1px solid #ad548260;padding:7px 9px;border-radius:4px}

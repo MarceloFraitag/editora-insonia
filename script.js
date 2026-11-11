@@ -1,9 +1,10 @@
-/* Editora Insônia V5 — interações locais, sem pedidos ou pagamentos reais. */
+/* Editora Insônia V6.3 — interações locais, sem pedidos ou pagamentos reais. */
 (() => {
   'use strict';
 
   const catalog = Array.isArray(window.INSOMNIA_CATALOG) ? window.INSOMNIA_CATALOG : [];
   const byId = new Map(catalog.map((product) => [product.id, product]));
+  // Mantém a chave da V5 para preservar os favoritos e a sacola existentes.
   const storageKey = 'editora-insonia-v5-demo';
   const money = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
   const $ = (selector) => document.querySelector(selector);
@@ -27,6 +28,7 @@
   const menuToggle = $('.menu-toggle');
   const nav = $('#main-nav');
 
+  // Recupera somente produtos e quantidades válidos do navegador.
   function loadState() {
     try {
       const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
@@ -57,21 +59,23 @@
   function formatPrice(cents) { return money.format(cents / 100); }
   function normalize(text) { return String(text).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(); }
 
+  // Relaciona cada livro à frente e à carta revelada.
   function coverMarkup(product) {
-    if (product.artwork === 'love') {
-      return `<div class="product-cover love"><div class="book-cover concept-cover">
-        <span class="cover-kicker">TRILOGIA GARGOYLE<br>LIVRO DOIS</span>
-        <span class="cover-title">GARGOYLE<br><b>LOVE</b></span>
-        <span class="cover-flower"></span>
-        <span class="cover-author">SABINE VECCHI</span>
-        <span class="cover-imprint">EDITORA<br><b>INSÔNIA</b></span>
-      </div></div>`;
-    }
-    if (product.artwork === 'game') {
-      return `<div class="product-cover game"><span class="game-top">TRILOGIA GARGOYLE · VOL. 1</span><span class="game-emblem">✦</span><span class="game-title">GARGOYLE<br>GAME</span><span class="game-author">SABINE VECCHI</span></div>`;
-    }
-    return `<div class="product-cover mystery"><span class="mystery-glyph">☽</span><span class="mystery-word">EM BREVE</span><span class="mystery-glyph">✦</span></div>`;
+    const cards = { game: ['moon', 'A Lua — Ricci'], love: ['death', 'A Morte — Dylan'], mystery: ['hanged', 'O Enforcado — Mason'] };
+    const [card, label] = cards[product.artwork];
+    const front = product.artwork === 'game' ? 'gargoyle-game.jpg' : 'tarot-back.jpg';
+    return `<button class="tarot-flip" type="button" aria-label="Revelar ${label}" aria-pressed="false">
+      <span class="tarot-inner"><span class="tarot-face ${product.artwork === 'game' ? 'is-book' : 'is-tarot'}"><img src="assets/${front}" alt="${product.artwork === 'game' ? 'Capa de Gargoyle Game' : 'Verso do baralho'}"></span>
+      <span class="tarot-face tarot-reverse is-tarot"><img src="assets/tarot-${card}.jpg" alt="${label}"></span></span>
+      <span class="tarot-hint">Revelar carta ↻</span></button>`;
   }
+
+  document.addEventListener('click', (event) => {
+    const card = event.target.closest('.tarot-flip');
+    if (!card) return;
+    const flipped = card.classList.toggle('is-flipped');
+    card.setAttribute('aria-pressed', String(flipped));
+  });
 
   function productCard(product) {
     const isFavorite = state.favorites.includes(product.id);
@@ -85,7 +89,7 @@
       <div class="product-art">
         <span class="product-tag ${product.purchasableInDemo ? 'product-tag--demo' : ''}">${product.purchasableInDemo ? 'SACOLA DEMO' : 'CADASTRO PENDENTE'}</span>
         <button class="product-favorite ${isFavorite ? 'is-saved' : ''}" type="button" data-action="favorite" data-id="${escape(product.id)}" aria-label="${isFavorite ? 'Remover' : 'Adicionar'} ${escape(product.title)} ${isFavorite ? 'dos' : 'aos'} favoritos" aria-pressed="${isFavorite}">${isFavorite ? '♥' : '♡'}</button>
-        <div aria-hidden="true">${coverMarkup(product)}</div>
+        <div>${coverMarkup(product)}</div>
       </div>
       <div class="product-content"><p class="product-series">${escape(product.series)} · ${escape(product.volume)}</p>
         <h3>${escape(product.title)}</h3><p class="product-author">${escape(product.author)}</p>
@@ -95,6 +99,7 @@
     </article>`;
   }
 
+  // Aplica busca e filtro antes de reconstruir o catálogo.
   function renderProducts() {
     const search = normalize(state.search.trim());
     const filtered = catalog.filter((product) => {
@@ -136,6 +141,7 @@
       </div><button class="remove-item" type="button" data-action="remove" data-id="${escape(product.id)}">Remover</button></div></div></li>`;
   }
 
+  // Atualiza a sacola de demonstração a partir do estado local.
   function renderCart() {
     const items = Object.entries(state.cart)
       .map(([id, quantity]) => ({ product: byId.get(id), quantity }))
@@ -227,6 +233,7 @@
     if (restoreFocus) focusBeforeLayer = null;
   }
 
+  // Abre a camada e direciona o foco para seu conteúdo.
   function showLayer(layer) {
     if (!activeLayer) focusBeforeLayer = document.activeElement;
     hideLayers({ restoreFocus: false });
@@ -246,6 +253,7 @@
     showLayer(checkoutModal);
   }
 
+  // Monta sinopse, temas e ficha com os dados do catálogo.
   function openDetails(id) {
     const product = byId.get(id);
     if (!product) return;
@@ -260,13 +268,13 @@
       ? `<button type="button" class="button button-primary" data-action="add" data-id="${escape(product.id)}">Adicionar à sacola demo ↗</button>`
       : `<p class="modal-availability">Preço, estoque e disponibilidade aguardam confirmação da editora.</p>`;
     $('#product-modal-content').innerHTML = `<div class="modal-product-layout">
-      <div class="modal-product-art"><div aria-hidden="true">${coverMarkup(product)}</div></div>
+      <div class="modal-product-art"><div>${coverMarkup(product)}</div></div>
       <div class="modal-product-info"><p class="eyebrow">${escape(product.series)} · ${escape(product.volume)}</p>
       <h2 id="product-modal-title">${escape(product.title)}</h2><p class="product-author">por ${escape(product.author)}</p>
-      <p class="modal-description">${escape(product.description)}</p><p class="modal-description-secondary">${escape(product.details)}</p>
+      ${product.tropes ? `<ul class="trope-list">${product.tropes.map(t => `<li>${escape(t)}</li>`).join('')}</ul>` : ''}<p class="modal-description">${escape(product.description)}</p><p class="modal-description-secondary">${escape(product.details)}</p>
       <dl class="modal-specs">${specs.map(([name, value]) => `<div><dt>${escape(name)}</dt><dd>${escape(value)}</dd></div>`).join('')}</dl>
       <div class="modal-buy-row"><div class="modal-price">${product.priceCents === null ? 'Preço a confirmar' : formatPrice(product.priceCents)}${product.priceIsExample ? '<small>Valor de exemplo da V3</small>' : ''}</div>${buy}</div>
-      <p class="catalog-disclaimer">Capas conceituais da prévia: substituir pelos arquivos oficiais.</p></div></div>`;
+</div></div>`;
     showLayer(productModal);
   }
 

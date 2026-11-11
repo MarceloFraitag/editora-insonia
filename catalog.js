@@ -1,5 +1,5 @@
 /**
- * Catálogo ilustrativo da V5.
+ * Catálogo ilustrativo da V6.3.
  * Valores em centavos para evitar erros de arredondamento.
  * No WordPress, estes dados serão substituídos por produtos do WooCommerce.
  */
@@ -32,8 +32,9 @@ window.INSOMNIA_CATALOG = Object.freeze([
     series: 'Trilogia Gargoyle',
     volume: 'Livro 1',
     category: 'Romance',
-    description: 'O início do jogo. Onde tudo se complica.',
-    details: 'Primeiro volume da Trilogia Gargoyle. Ficha comercial e capa oficial aguardando validação.',
+    description: 'Em Blackmoor, Maxine O’Brien busca a verdade sobre a morte da irmã. Um namoro de fachada com Oliver Ricci pode protegê-la — ou aproximá-la do principal suspeito.',
+    details: 'Entre os segredos de uma universidade onde sinos anunciam a morte de alunos, Maxine faz um acordo perigoso com Oliver: garantir seu acesso à morfina em troca de proteção contra os jogadores rivais. Astro do lacrosse e lutador clandestino, ele carrega o legado violento da família Ricci. Mas, quando a atração deixa de ser fingimento e as pistas apontam para ele, Maxine precisa descobrir se Oliver é seu aliado ou a ameaça que procura.',
+    tropes: ['Fake dating', 'Enemies to lovers', 'Slow burn', 'New adult', 'Found family', 'Jogadores de lacrosse'],
     pages: null,
     launch: null,
     size: null,
