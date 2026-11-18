@@ -345,6 +345,27 @@
     else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
   });
 
+  const themeToggle = $('#theme-toggle');
+  const themeStorageKey = 'editora-insonia-theme';
+  let lightTheme = false;
+  try { lightTheme = localStorage.getItem(themeStorageKey) === 'light'; }
+  catch { /* A preferência continua disponível nesta página. */ }
+
+  function applyTheme() {
+    document.documentElement.classList.toggle('theme-light', lightTheme);
+    themeToggle.setAttribute('aria-pressed', String(lightTheme));
+    $('meta[name="theme-color"]').content = lightTheme ? '#f0dbe8' : '#180a1b';
+  }
+
+  applyTheme();
+  themeToggle.hidden = false;
+  themeToggle.addEventListener('click', () => {
+    lightTheme = !lightTheme;
+    applyTheme();
+    try { localStorage.setItem(themeStorageKey, lightTheme ? 'light' : 'dark'); }
+    catch { /* Alguns navegadores bloqueiam o armazenamento local. */ }
+  });
+
   loadState();
   renderAll();
 })();
