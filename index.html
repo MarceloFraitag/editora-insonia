@@ -9,6 +9,13 @@
   <link rel="stylesheet" href="styles.css">
   <script src="catalog.js" defer></script>
   <script src="script.js" defer></script>
+  <script src="olho.js" defer></script>
+  <script src="chat.js" defer></script>
+  <script src="corvos.js" defer></script>
+  <script src="cards.js" defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&display=swap">
 </head>
 <body>
   <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
@@ -16,7 +23,7 @@
     <span class="announcement-symbol" aria-hidden="true">✦</span>
     <span>Histórias para quem não tem medo da madrugada.</span>
     <span class="announcement-symbol" aria-hidden="true">✦</span>
-    <span class="preview-label">PRÉVIA DA LOJA · V6.3.1</span>
+    <span class="preview-label">PRÉVIA DA LOJA · V6.4</span>
   </div>
 
   <header class="site-header">
@@ -45,10 +52,33 @@
       </div>
     </div>
   </header>
-  <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false" hidden>
-    <span class="watcher" aria-hidden="true"><span class="watcher-orbit"></span><img src="assets/eye-pointer.png" alt=""></span>
+  <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false" title="Alternar modo claro e escuro" hidden>
+    <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.6A8.3 8.3 0 0 1 9.4 4a8.3 8.3 0 1 0 10.6 10.6Z"/></svg>
     <span class="sr-only">Modo claro</span>
   </button>
+
+  <!-- Olho animado: abre o chat -->
+  <div class="olho-chat" id="olho-chat">
+    <section class="chat-panel" id="chat-panel" role="dialog" aria-labelledby="chat-title" hidden>
+      <header class="chat-head">
+        <div><p class="eyebrow">ATENDIMENTO · PRÉVIA</p><h2 id="chat-title">Fale com a Insônia</h2></div>
+        <button type="button" class="icon-button chat-close" id="chat-close" aria-label="Fechar conversa">×</button>
+      </header>
+      <ol class="chat-log" id="chat-log" aria-live="polite"></ol>
+      <div class="chat-quick" id="chat-quick"></div>
+      <form class="chat-form" id="chat-form" autocomplete="off">
+        <label class="sr-only" for="chat-input">Sua mensagem</label>
+        <input id="chat-input" type="text" placeholder="Escreva sua pergunta…" maxlength="300">
+        <button type="submit" class="chat-send" aria-label="Enviar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></button>
+      </form>
+    </section>
+    <p class="chat-teaser" id="chat-teaser">Perdeu o sono? Posso ajudar a escolher um livro.</p>
+    <button type="button" class="olho-bubble" id="olho-bubble" aria-expanded="false" aria-controls="chat-panel" aria-label="Abrir conversa com a Insônia">
+      <span class="olho-palco" id="olho-palco"><canvas id="olho-tela" aria-hidden="true"></canvas></span>
+      <span class="olho-status" aria-hidden="true"></span>
+    </button>
+  </div>
 
   <main id="conteudo">
     <!-- Hero -->

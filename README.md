@@ -20,6 +20,10 @@ Abra [localhost:8000](http://localhost:8000).
 | `styles.css` | Layout, temas, responsividade e animações |
 | `catalog.js` | Livros, sinopses, temas, preços e disponibilidade |
 | `script.js` | Busca, filtros, cartas, favoritos, sacola e troca de tema |
+| `olho.js` | Olho 3D da bolha de atendimento, que segue o ponteiro |
+| `chat.js` | Chat de prévia aberto pelo olho, com respostas prontas |
+| `corvos.js` | Revoada de corvos e som ao revelar uma carta |
+| `cards.js` | Inclinação 3D das cartas e brilho dos cards |
 | `assets/` | Artes do banner, capa, cartas e marca |
 | `CHANGELOG.md` | Histórico das versões |
 
@@ -35,19 +39,27 @@ O campo `artwork` escolhe as imagens da frente e do verso:
 
 Passe o mouse para revelar a carta. Clique, toque, Enter ou Espaço alternam o estado fixado. O recorte das margens das cartas fica em `.tarot-face.is-tarot img`.
 
-## Tema e sacola
+## Tema, olho e corvos
 
-O botão do olho no canto inferior direito alterna entre os temas escuro e claro. O navegador guarda a preferência em `editora-insonia-theme` e mantém favoritos e sacola em `editora-insonia-v5-demo`.
+O botão de lua e sol no canto inferior direito alterna entre os temas escuro e claro. O navegador guarda a preferência em `editora-insonia-theme` e mantém favoritos e sacola em `editora-insonia-v5-demo`.
+
+Acima dele, o olho abre um chat de prévia. As respostas ficam na lista `respostas` de `chat.js` e não há atendimento real conectado.
+
+Ao revelar uma carta, corvos saem de trás dela. O som (`assets/corvos.mp3`) só toca depois do primeiro clique, toque ou tecla na página, por regra dos navegadores, e precisa da página servida por HTTP. Com `prefers-reduced-motion` ativo, corvos, inclinação e animações de fundo ficam desligados.
 
 A sacola e o resumo do pedido são simulações. A etapa de compra está prevista para a integração com WooCommerce. Veja o [roteiro de integração](docs/INTEGRACAO-WOOCOMMERCE.md).
 
-As artes foram fornecidas para o protótipo. O uso de capas, cartas, marca e conteúdo editorial depende das permissões dos titulares.
+As artes foram fornecidas para o protótipo. O uso de capas, cartas, marca e conteúdo editorial depende das permissões dos titulares. O som da revoada veio do arquivo `freesound_community-raven-manymp3-14529.mp3` (freesound_community); confira a licença na origem antes de publicar a loja.
 
 ## Verificação
 
 ```sh
 node --check catalog.js
 node --check script.js
+node --check olho.js
+node --check chat.js
+node --check corvos.js
+node --check cards.js
 ```
 
 No navegador, confira a busca, os filtros, a virada das cartas, a sacola e o fechamento dos diálogos com Escape. Recarregue a página para conferir a preferência de tema e teste o layout em celular e desktop.
