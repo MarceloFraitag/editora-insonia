@@ -1,10 +1,10 @@
-/* Editora Insônia V6.3 — interações locais, sem pedidos ou pagamentos reais. */
+/* Interações do catálogo */
 (() => {
   'use strict';
 
   const catalog = Array.isArray(window.INSOMNIA_CATALOG) ? window.INSOMNIA_CATALOG : [];
   const byId = new Map(catalog.map((product) => [product.id, product]));
-  // Mantém a chave da V5 para preservar os favoritos e a sacola existentes.
+  // Chave da V5 para manter os dados salvos
   const storageKey = 'editora-insonia-v5-demo';
   const money = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
   const $ = (selector) => document.querySelector(selector);
@@ -28,7 +28,7 @@
   const menuToggle = $('.menu-toggle');
   const nav = $('#main-nav');
 
-  // Recupera somente produtos e quantidades válidos do navegador.
+  // Sacola e favoritos salvos
   function loadState() {
     try {
       const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
@@ -44,12 +44,12 @@
           state.favorites = [...new Set(saved.favorites.filter((id) => byId.has(id)))];
         }
       }
-    } catch (_) { /* Armazenamento indisponível: experiência segue em memória. */ }
+    } catch (_) { /* Segue em memória */ }
   }
 
   function saveState() {
     try { localStorage.setItem(storageKey, JSON.stringify({ cart: state.cart, favorites: state.favorites })); }
-    catch (_) { /* Nada é enviado a servidores externos. */ }
+    catch (_) { /* Segue em memória */ }
   }
 
   function countItems() { return Object.values(state.cart).reduce((total, qty) => total + qty, 0); }
@@ -59,7 +59,7 @@
   function formatPrice(cents) { return money.format(cents / 100); }
   function normalize(text) { return String(text).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(); }
 
-  // Relaciona cada livro à frente e à carta revelada.
+  // Carta de cada livro
   function coverMarkup(product) {
     const cards = { game: ['moon', 'A Lua — Ricci'], love: ['death', 'A Morte — Dylan'], mystery: ['hanged', 'O Enforcado — Mason'] };
     const [card, label] = cards[product.artwork];
@@ -99,7 +99,7 @@
     </article>`;
   }
 
-  // Aplica busca e filtro antes de reconstruir o catálogo.
+  // Busca e filtros
   function renderProducts() {
     const search = normalize(state.search.trim());
     const filtered = catalog.filter((product) => {
@@ -141,7 +141,7 @@
       </div><button class="remove-item" type="button" data-action="remove" data-id="${escape(product.id)}">Remover</button></div></div></li>`;
   }
 
-  // Atualiza a sacola de demonstração a partir do estado local.
+  // Sacola
   function renderCart() {
     const items = Object.entries(state.cart)
       .map(([id, quantity]) => ({ product: byId.get(id), quantity }))
@@ -233,7 +233,7 @@
     if (restoreFocus) focusBeforeLayer = null;
   }
 
-  // Abre a camada e direciona o foco para seu conteúdo.
+  // Foco ao abrir
   function showLayer(layer) {
     if (!activeLayer) focusBeforeLayer = document.activeElement;
     hideLayers({ restoreFocus: false });
@@ -253,7 +253,7 @@
     showLayer(checkoutModal);
   }
 
-  // Monta sinopse, temas e ficha com os dados do catálogo.
+  // Ficha do livro
   function openDetails(id) {
     const product = byId.get(id);
     if (!product) return;
@@ -328,7 +328,7 @@
     menuToggle.setAttribute('aria-label', isOpen ? 'Fechar menu' : 'Abrir menu');
   });
 
-  // Impede foco atrás do diálogo com Tab e permite fechar com Escape.
+  // Tab e Escape nos diálogos
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
       if (activeLayer) hideLayers();
@@ -345,11 +345,12 @@
     else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
   });
 
+  // Tema claro e escuro
   const themeToggle = $('#theme-toggle');
   const themeStorageKey = 'editora-insonia-theme';
   let lightTheme = false;
   try { lightTheme = localStorage.getItem(themeStorageKey) === 'light'; }
-  catch { /* A preferência continua disponível nesta página. */ }
+  catch { /* Usa o tema padrão */ }
 
   function applyTheme() {
     document.documentElement.classList.toggle('theme-light', lightTheme);
@@ -363,7 +364,7 @@
     lightTheme = !lightTheme;
     applyTheme();
     try { localStorage.setItem(themeStorageKey, lightTheme ? 'light' : 'dark'); }
-    catch { /* Alguns navegadores bloqueiam o armazenamento local. */ }
+    catch { /* Mantém o tema nesta página */ }
   });
 
   loadState();

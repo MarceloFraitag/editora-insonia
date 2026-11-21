@@ -1,8 +1,4 @@
-/**
- * Catálogo ilustrativo da V6.3.
- * Valores em centavos para evitar erros de arredondamento.
- * No WordPress, estes dados serão substituídos por produtos do WooCommerce.
- */
+// Catálogo demo. Preços em centavos.
 window.INSOMNIA_CATALOG = Object.freeze([
   {
     id: 'gargoyle-love-fisico',
