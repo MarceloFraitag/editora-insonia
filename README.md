@@ -39,11 +39,15 @@ O campo `artwork` escolhe as imagens da frente e do verso:
 
 Passe o mouse para revelar a carta. Clique, toque, Enter ou Espaço alternam o estado fixado. O recorte das margens das cartas fica em `.tarot-face.is-tarot img`.
 
+## Visualização no celular
+
+Em telas estreitas, o catálogo organiza os filtros em duas colunas. Em paisagem, a abertura usa duas colunas quando há espaço. Os detalhes dos livros e o resumo do pedido mantêm o botão de fechar visível durante a rolagem, e o chat se ajusta à altura da tela.
+
 ## Tema, olho e corvos
 
 O botão de lua e sol no canto inferior direito alterna entre os temas escuro e claro. O navegador guarda a preferência em `editora-insonia-theme` e mantém favoritos e sacola em `editora-insonia-v5-demo`.
 
-Acima dele, o olho abre um chat de prévia. As respostas ficam na lista `respostas` de `chat.js` e não há atendimento real conectado.
+O botão do olho no canto inferior direito abre um chat de prévia. As respostas ficam na lista `respostas` de `chat.js` e não há atendimento real conectado.
 
 Ao revelar uma carta, corvos saem de trás dela. O som (`assets/corvos.mp3`) só toca depois do primeiro clique, toque ou tecla na página, por regra dos navegadores, e precisa da página servida por HTTP. Com `prefers-reduced-motion` ativo, corvos, inclinação e animações de fundo ficam desligados.
 

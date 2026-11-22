@@ -1,5 +1,9 @@
 # Histórico
 
+## 6.4.1
+- Abertura, navegação, filtros, ficha dos livros, sacola e chat ajustados para telas de celular.
+- Removido o arquivo assets/eye-pointer.png.
+
 ## 6.4
 - Menu, rótulos, selos e botões em Cinzel, para conversar com a logo.
 - Botão de lua e sol no lugar do olho estático para trocar o tema.
