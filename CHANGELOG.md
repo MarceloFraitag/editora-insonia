@@ -1,5 +1,13 @@
 # Histórico
 
+## 6.4
+- Menu, rótulos, selos e botões em Cinzel, para conversar com a logo.
+- Botão de lua e sol no lugar do olho estático para trocar o tema.
+- Olho 3D em WebGL no canto inferior direito, que segue o ponteiro, pisca e abre um chat de prévia com respostas prontas (`olho.js`, `chat.js`).
+- Corvos em silhueta saem de trás das cartas ao revelar, com névoa, penas e som de revoada (`corvos.js`, `assets/corvos.mp3`).
+- Cards do catálogo com moldura, brilho de vela, névoa, inclinação 3D da carta e botões com reflexo (`cards.js`).
+- Manifesto, autora, passos da compra e perguntas com o mesmo acabamento.
+
 ## 6.3.1
 - Ornamento do manifesto reposicionado no fluxo para evitar sobreposição com a frase no celular.
 

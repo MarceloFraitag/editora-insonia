@@ -5,3 +5,5 @@
 *.md text eol=lf
 *.jpg binary
 *.png binary
+*.mp3 binary
+*.svg text eol=lf
