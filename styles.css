@@ -543,6 +543,17 @@ body.is-locked .theme-toggle{visibility:hidden}
 .eyebrow{font-size:12px}
 .product-series{font-size:11px}
 
+/* ===== Menu: letras giram e revelam o nome sombrio ===== */
+.troca{display:inline-grid;perspective:600px;vertical-align:baseline}
+.troca>span{grid-area:1/1;white-space:nowrap;display:inline-flex;justify-self:start}
+.troca .ch{display:inline-block;backface-visibility:hidden;transition:transform .5s cubic-bezier(.3,.7,.2,1.25),opacity .35s ease,color .3s,text-shadow .3s;transition-delay:calc(var(--i) * 28ms)}
+.troca-a .ch{transform-origin:50% 0%}
+.troca-b .ch{transform-origin:50% 100%;transform:rotateX(-95deg) translateY(35%);opacity:0;color:#ff9bdc;text-shadow:0 0 10px #c93c91,0 0 22px #c93c9188}
+.troca-host:is(:hover,:focus-visible) .troca-a .ch{transform:rotateX(95deg) translateY(-35%);opacity:0}
+.troca-host:is(:hover,:focus-visible) .troca-b .ch{transform:none;opacity:1}
+.theme-light .troca-b .ch{color:var(--theme-accent);text-shadow:none}
+@media(prefers-reduced-motion:reduce){.troca .ch{transition:opacity .2s;transition-delay:0s;transform:none!important}}
+
 /* ===== Cards do catálogo ===== */
 .product-grid{gap:28px}
 .product-grid .product-card{

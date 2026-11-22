@@ -24,6 +24,7 @@ Abra [localhost:8000](http://localhost:8000).
 | `chat.js` | Chat de prévia aberto pelo olho, com respostas prontas |
 | `corvos.js` | Revoada de corvos e som ao revelar uma carta |
 | `cards.js` | Inclinação 3D das cartas e brilho dos cards |
+| `menu.js` | Troca animada dos nomes do menu no hover |
 | `assets/` | Artes do banner, capa, cartas e marca |
 | `CHANGELOG.md` | Histórico das versões |
 
@@ -40,6 +41,8 @@ O campo `artwork` escolhe as imagens da frente e do verso:
 Passe o mouse para revelar a carta. Clique, toque, Enter ou Espaço alternam o estado fixado. O recorte das margens das cartas fica em `.tarot-face.is-tarot img`.
 
 ## Tema, olho e corvos
+
+No menu do topo, as letras giram no hover e revelam um nome sombrio (Catálogo vira Grimório, por exemplo). Os pares ficam no objeto `trocas` de `menu.js`; leitores de tela continuam lendo o nome original.
 
 O botão de lua e sol no canto inferior direito alterna entre os temas escuro e claro. O navegador guarda a preferência em `editora-insonia-theme` e mantém favoritos e sacola em `editora-insonia-v5-demo`.
 
@@ -60,6 +63,7 @@ node --check olho.js
 node --check chat.js
 node --check corvos.js
 node --check cards.js
+node --check menu.js
 ```
 
 No navegador, confira a busca, os filtros, a virada das cartas, a sacola e o fechamento dos diálogos com Escape. Recarregue a página para conferir a preferência de tema e teste o layout em celular e desktop.
