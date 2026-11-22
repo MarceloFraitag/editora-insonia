@@ -25,6 +25,7 @@ Abra [localhost:8000](http://localhost:8000).
 | `corvos.js` | Revoada de corvos e som ao revelar uma carta |
 | `cards.js` | Inclinação 3D das cartas e brilho dos cards |
 | `menu.js` | Troca animada dos nomes do menu no hover |
+| `efeitos.js` | Lanterna e brasas no banner, relógio da insônia, sinos e livro voando até a sacola |
 | `assets/` | Artes do banner, capa, cartas e marca |
 | `CHANGELOG.md` | Histórico das versões |
 
@@ -43,6 +44,8 @@ Passe o mouse para revelar a carta. Clique, toque, Enter ou Espaço alternam o e
 ## Tema, olho e corvos
 
 No menu do topo, as letras giram no hover e revelam um nome sombrio (Catálogo vira Grimório, por exemplo). Os pares ficam no objeto `trocas` de `menu.js`; leitores de tela continuam lendo o nome original.
+
+`efeitos.js` cuida do resto da atmosfera: no banner, o ponteiro funciona como lanterna e brasas rosadas sobem do fundo. Entre meia-noite e 5h, o aviso do topo mostra a hora ("São 2h14. Só mais um capítulo?") e o olho pisca mais devagar, como quem está com sono. Ao abrir a ficha do Gargoyle Game, um sino distante dobra duas vezes (som sintetizado no navegador, sem arquivo). Ao adicionar um livro, a capa voa até a sacola deixando penas e o contador pulsa. Com movimento reduzido no sistema, a lanterna fica parada e as brasas e o voo não aparecem.
 
 O botão de lua e sol no canto inferior direito alterna entre os temas escuro e claro. O navegador guarda a preferência em `editora-insonia-theme` e mantém favoritos e sacola em `editora-insonia-v5-demo`.
 
@@ -64,6 +67,7 @@ node --check chat.js
 node --check corvos.js
 node --check cards.js
 node --check menu.js
+node --check efeitos.js
 ```
 
 No navegador, confira a busca, os filtros, a virada das cartas, a sacola e o fechamento dos diálogos com Escape. Recarregue a página para conferir a preferência de tema e teste o layout em celular e desktop.

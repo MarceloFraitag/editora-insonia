@@ -176,7 +176,8 @@ document.addEventListener('pointerleave', () => { alvo = [0,0]; });
 // --- pálpebras: piscadas rápidas e, às vezes, uma pesada de sono ---
 let mov = null, proxMov = 2.2;
 function novoMovimento(t){
-  if (Math.random() < .3) return [t, .9, 1.1, 1.2, .55];
+  const sono = document.documentElement.classList.contains('madrugada');   // depois da meia-noite o olho pesa
+  if (Math.random() < (sono ? .65 : .3)) return sono ? [t, 1.3, 1.8, 1.6, .72] : [t, .9, 1.1, 1.2, .55];
   return [t, .11, .06, .19, 1];
 }
 function fechamentoEm(t){
