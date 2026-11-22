@@ -1,5 +1,10 @@
 # Histórico
 
+## 6.4.2
+- Menu do topo com letras que giram no hover e revelam nomes sombrios (`menu.js`).
+- Lanterna e brasas no banner, relógio da insônia com olho sonolento de madrugada, sinos na ficha do Gargoyle Game e livro voando até a sacola (`efeitos.js`).
+- Entre 851 e 1080 px de largura, Favoritos e Sacola aparecem só como ícone para o menu caber na barra.
+
 ## 6.4.1
 - Abertura, navegação, filtros, ficha dos livros, sacola e chat ajustados para telas de celular.
 - Removido o arquivo assets/eye-pointer.png.
@@ -11,8 +16,6 @@
 - Corvos em silhueta saem de trás das cartas ao revelar, com névoa, penas e som de revoada (`corvos.js`, `assets/corvos.mp3`).
 - Cards do catálogo com moldura, brilho de vela, névoa, inclinação 3D da carta e botões com reflexo (`cards.js`).
 - Manifesto, autora, passos da compra e perguntas com o mesmo acabamento.
-- Menu do topo com letras que giram no hover e revelam nomes sombrios (`menu.js`).
-- Lanterna e brasas no banner, relógio da insônia com olho sonolento de madrugada, sinos na ficha do Gargoyle Game e livro voando até a sacola (`efeitos.js`).
 
 ## 6.3.1
 - Ornamento do manifesto reposicionado no fluxo para evitar sobreposição com a frase no celular.

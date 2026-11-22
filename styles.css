@@ -549,6 +549,7 @@ body.is-locked .theme-toggle{visibility:hidden}
 .header-action .counter{font-family:var(--sans);letter-spacing:0}
 @media(max-width:1160px){.main-nav{letter-spacing:.08em;font-size:12.5px}}
 @media(max-width:850px){.main-nav{font-size:14px;letter-spacing:.14em}}
+@media(min-width:851px) and (max-width:1080px){.header-action-text{display:none}.header-actions{gap:10px}}
 /* Rótulos das seções também em Cinzel */
 .eyebrow,.featured-chip small,.author-aside small,.footer-links h3,.product-series,.manifesto-quote p{font-family:var(--cinzel);font-weight:600;letter-spacing:.14em}
 .eyebrow{font-size:12px}
