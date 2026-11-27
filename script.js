@@ -19,6 +19,7 @@
 
   const grid = $('#product-grid');
   const empty = $('#catalog-empty');
+  const drawerItems = $('#drawer-items');
   const cartDrawer = $('#cart-drawer');
   const cartOverlay = $('#cart-overlay');
   const productModal = $('#product-modal');
@@ -59,13 +60,21 @@
   function formatPrice(cents) { return money.format(cents / 100); }
   function normalize(text) { return String(text).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(); }
 
+  function coverFrontMarkup(isGame, alt) {
+    // Reutiliza a imagem carregada pelo Hero, mantendo o JPG original como alternativa.
+    return isGame
+      ? `<picture><source srcset="assets/gargoyle-game.webp" type="image/webp"><img src="assets/gargoyle-game.jpg" width="1890" height="2717" alt="${alt}" loading="lazy"></picture>`
+      : `<img src="assets/tarot-back.jpg" alt="${alt}">`;
+  }
+
   // Carta de cada livro
   function coverMarkup(product) {
     const cards = { game: ['moon', 'A Lua — Ricci'], love: ['death', 'A Morte — Dylan'], mystery: ['hanged', 'O Enforcado — Mason'] };
     const [card, label] = cards[product.artwork];
-    const front = product.artwork === 'game' ? 'gargoyle-game.jpg' : 'tarot-back.jpg';
+    const isGame = product.artwork === 'game';
+    const front = coverFrontMarkup(isGame, isGame ? 'Capa de Gargoyle Game' : 'Verso do baralho');
     return `<button class="tarot-flip" type="button" aria-label="Revelar ${label}" aria-pressed="false">
-      <span class="tarot-inner"><span class="tarot-face ${product.artwork === 'game' ? 'is-book' : 'is-tarot'}"><img src="assets/${front}" alt="${product.artwork === 'game' ? 'Capa de Gargoyle Game' : 'Verso do baralho'}"></span>
+      <span class="tarot-inner"><span class="tarot-face ${isGame ? 'is-book' : 'is-tarot'}">${front}</span>
       <span class="tarot-face tarot-reverse is-tarot"><img src="assets/tarot-${card}.jpg" alt="${label}"></span></span>
       <span class="tarot-hint">Revelar carta ↻</span></button>`;
   }
@@ -81,20 +90,21 @@
     const isFavorite = state.favorites.includes(product.id);
     const price = product.priceCents === null
       ? `<div class="product-price pending">Preço a confirmar</div>`
-      : `<div class="product-price">${formatPrice(product.priceCents)}${product.priceIsExample ? '<small>Valor ilustrativo da V3</small>' : ''}</div>`;
-    const primary = product.purchasableInDemo
+      : `<div class="product-price">${formatPrice(product.priceCents)}${product.priceIsExample ? '<small>Preço ilustrativo</small>' : ''}</div>`;
+    const buy = product.purchasableInDemo
       ? `<button class="button button-primary" type="button" data-action="add" data-id="${escape(product.id)}">Adicionar à sacola <span aria-hidden="true">↗</span></button>`
-      : `<button class="button button-outline" type="button" data-action="details" data-id="${escape(product.id)}">Ver detalhes <span aria-hidden="true">→</span></button>`;
+      : '';
+    const detailsClass = buy ? 'details-button' : 'button button-outline';
     return `<article class="product-card">
       <div class="product-art">
-        <span class="product-tag ${product.purchasableInDemo ? 'product-tag--demo' : ''}">${product.purchasableInDemo ? 'SACOLA DEMO' : 'CADASTRO PENDENTE'}</span>
+        <span class="product-tag ${product.purchasableInDemo ? 'product-tag--demo' : ''}">${product.purchasableInDemo ? 'Sacola demonstrativa' : 'Aguardando chegada'}</span>
         <button class="product-favorite ${isFavorite ? 'is-saved' : ''}" type="button" data-action="favorite" data-id="${escape(product.id)}" aria-label="${isFavorite ? 'Remover' : 'Adicionar'} ${escape(product.title)} ${isFavorite ? 'dos' : 'aos'} favoritos" aria-pressed="${isFavorite}">${isFavorite ? '♥' : '♡'}</button>
         <div>${coverMarkup(product)}</div>
       </div>
       <div class="product-content"><p class="product-series">${escape(product.series)} · ${escape(product.volume)}</p>
         <h3>${escape(product.title)}</h3><p class="product-author">${escape(product.author)}</p>
-        <div class="product-meta-row">${price}<span class="product-meta-note">${product.purchasableInDemo ? 'Livro físico · demonstração' : 'Informações comerciais pendentes'}</span></div>
-        <div class="product-actions">${primary}<button class="details-button" type="button" data-action="details" data-id="${escape(product.id)}" aria-label="Ver ficha de ${escape(product.title)}">Ficha ↗</button></div>
+        <div class="product-meta-row">${price}<span class="product-meta-note">Livro físico</span></div>
+        <div class="product-actions${buy ? '' : ' product-actions--single'}">${buy}<button class="${detailsClass}" type="button" data-action="details" data-id="${escape(product.id)}" aria-label="Ver ficha de ${escape(product.title)}" aria-haspopup="dialog">${buy ? 'Ficha' : 'Ver ficha'} <span aria-hidden="true">↗</span></button></div>
       </div>
     </article>`;
   }
@@ -131,7 +141,10 @@
   }
 
   function cartItemMarkup(product, qty) {
-    return `<li class="drawer-item"><div class="drawer-item-art" aria-hidden="true">${coverMarkup(product)}</div>
+    const thumbnail = product.artwork === 'game'
+      ? coverFrontMarkup(true, '')
+      : '<img src="assets/tarot-back.jpg" width="680" height="1135" alt="">';
+    return `<li class="drawer-item" data-id="${escape(product.id)}"><div class="drawer-item-art">${thumbnail}</div>
       <div class="drawer-item-main"><h3>${escape(product.title)}</h3><p class="drawer-byline">${escape(product.author)} · Físico</p>
       <p class="drawer-item-price">${formatPrice(product.priceCents * qty)}</p>
       <div class="qty-row"><div class="quantity-controls" aria-label="Quantidade de ${escape(product.title)}">
@@ -146,7 +159,7 @@
     const items = Object.entries(state.cart)
       .map(([id, quantity]) => ({ product: byId.get(id), quantity }))
       .filter(({ product }) => Boolean(product));
-    $('#drawer-items').innerHTML = items.map(({ product, quantity }) => cartItemMarkup(product, quantity)).join('');
+    drawerItems.innerHTML = items.map(({ product, quantity }) => cartItemMarkup(product, quantity)).join('');
     $('#drawer-item-count').textContent = `(${countItems()})`;
     $('#cart-empty-state').hidden = items.length > 0;
     $('#drawer-footer').hidden = items.length === 0;
@@ -162,8 +175,6 @@
     $('#checkout-subtotal').textContent = formatPrice(subtotal());
   }
 
-  function renderAll() { renderHeader(); renderProducts(); renderCart(); renderCheckout(); }
-
   function announce(message) {
     toast.textContent = message;
     toast.classList.add('visible');
@@ -171,15 +182,16 @@
     toastTimeout = setTimeout(() => { toast.classList.remove('visible'); }, 3000);
   }
 
-  function addItem(id) {
+  function addItem(id, trigger) {
     const product = byId.get(id);
     if (!product?.purchasableInDemo || product.priceCents === null) return;
     const existing = state.cart[id] || 0;
     if (existing >= 99) { announce('Máximo de 99 unidades na demonstração.'); return; }
     state.cart[id] = existing + 1;
     saveState();
-    renderAll();
-    openCart();
+    // O catálogo fica no DOM para que o botão de origem receba o foco ao fechar.
+    renderHeader();
+    openCart(trigger);
     announce(`${product.title} foi adicionado à sacola demonstrativa.`);
   }
 
@@ -187,37 +199,41 @@
     const product = byId.get(id);
     if (!product || !state.cart[id]) return;
     const next = Math.min(99, Math.max(0, state.cart[id] + change));
-    if (next === 0) delete state.cart[id]; else state.cart[id] = next;
+    if (next === 0) { removeItem(id); return; }
+    state.cart[id] = next;
     saveState();
     renderHeader();
     renderCart();
-    renderCheckout();
-    const nextControl = $('#drawer-items').querySelector(`[data-action="${change < 0 ? 'minus' : 'plus'}"][data-id="${id}"]`);
-    if (nextControl && !nextControl.disabled) nextControl.focus();
-    else ($('#close-cart')).focus();
-    announce(next === 0 ? `${product.title} removido da sacola.` : `Quantidade atualizada: ${next}.`);
+    // Ao atingir o limite, mantém o foco na mesma linha, no botão ainda disponível.
+    const quantityAction = change > 0 && next < 99 ? 'plus' : 'minus';
+    drawerItems.querySelector(`[data-action="${quantityAction}"][data-id="${CSS.escape(id)}"]`).focus();
+    announce(`Quantidade atualizada: ${next}.`);
   }
 
   function removeItem(id) {
     if (!state.cart[id]) return;
     const title = byId.get(id)?.title || 'Livro';
+    const index = [...drawerItems.children].findIndex(item => item.dataset.id === id);
     delete state.cart[id];
     saveState();
-    renderHeader(); renderCart(); renderCheckout();
-    $('#close-cart').focus();
+    renderHeader(); renderCart();
+    const nextItem = drawerItems.children[index] || drawerItems.lastElementChild;
+    (nextItem?.querySelector('.remove-item') || $('#empty-browse')).focus();
     announce(`${title} removido da sacola.`);
   }
 
-  function toggleFavorite(id) {
+  function toggleFavorite(id, trigger) {
     const product = byId.get(id);
     if (!product) return;
     const position = state.favorites.indexOf(id);
+    const index = [...grid.querySelectorAll('.product-favorite')].indexOf(trigger);
     if (position === -1) state.favorites.push(id);
     else state.favorites.splice(position, 1);
     const added = position === -1;
     saveState(); renderHeader(); renderProducts();
-    const button = grid.querySelector(`[data-action="favorite"][data-id="${id}"]`);
-    if (button) button.focus({ preventScroll: true });
+    const sameBook = grid.querySelector(`[data-action="favorite"][data-id="${CSS.escape(id)}"]`);
+    const remaining = grid.querySelectorAll('.product-favorite');
+    (sameBook || remaining[index] || remaining[remaining.length - 1] || $('#reset-filters')).focus();
     announce(`${product.title} ${added ? 'salvo nos' : 'removido dos'} favoritos.`);
   }
 
@@ -229,13 +245,17 @@
     modalOverlay.hidden = true;
     document.body.classList.remove('is-locked');
     activeLayer = null;
-    if (restoreFocus && focusBeforeLayer?.isConnected) focusBeforeLayer.focus({ preventScroll: true });
-    if (restoreFocus) focusBeforeLayer = null;
+    if (restoreFocus) {
+      const target = focusBeforeLayer?.isConnected && !focusBeforeLayer.closest('[hidden]')
+        ? focusBeforeLayer : $('#open-cart');
+      focusBeforeLayer = null;
+      target.focus();
+    }
   }
 
-  // Foco ao abrir
-  function showLayer(layer) {
-    if (!activeLayer) focusBeforeLayer = document.activeElement;
+  // A primeira origem continua válida nas transições entre ficha, sacola e resumo.
+  function showLayer(layer, trigger = document.activeElement) {
+    if (!activeLayer) focusBeforeLayer = trigger;
     hideLayers({ restoreFocus: false });
     activeLayer = layer;
     layer.hidden = false;
@@ -246,7 +266,7 @@
     (first || layer).focus({ preventScroll: true });
   }
 
-  function openCart() { renderCart(); showLayer(cartDrawer); }
+  function openCart(trigger) { renderCart(); showLayer(cartDrawer, trigger); }
   function openCheckout() {
     if (countItems() === 0) { announce('Adicione um livro antes de ver o resumo.'); return; }
     renderCheckout();
@@ -254,7 +274,7 @@
   }
 
   // Ficha do livro
-  function openDetails(id) {
+  function openDetails(id, trigger) {
     const product = byId.get(id);
     if (!product) return;
     const specs = [
@@ -262,7 +282,7 @@
       ['Coleção', `${product.series} (${product.volume})`],
       ...(product.pages ? [['Páginas', product.pages]] : []),
       ...(product.size ? [['Dimensões', product.size]] : []),
-      ...(product.launch ? [['Data informada na V3', product.launch]] : [])
+      ...(product.launch ? [['Data informada na prévia', product.launch]] : [])
     ];
     const buy = product.purchasableInDemo
       ? `<button type="button" class="button button-primary" data-action="add" data-id="${escape(product.id)}">Adicionar à sacola demo ↗</button>`
@@ -273,15 +293,15 @@
       <h2 id="product-modal-title">${escape(product.title)}</h2><p class="product-author">por ${escape(product.author)}</p>
       ${product.tropes ? `<ul class="trope-list">${product.tropes.map(t => `<li>${escape(t)}</li>`).join('')}</ul>` : ''}<p class="modal-description">${escape(product.description)}</p><p class="modal-description-secondary">${escape(product.details)}</p>
       <dl class="modal-specs">${specs.map(([name, value]) => `<div><dt>${escape(name)}</dt><dd>${escape(value)}</dd></div>`).join('')}</dl>
-      <div class="modal-buy-row"><div class="modal-price">${product.priceCents === null ? 'Preço a confirmar' : formatPrice(product.priceCents)}${product.priceIsExample ? '<small>Valor de exemplo da V3</small>' : ''}</div>${buy}</div>
+      <div class="modal-buy-row">${product.priceCents === null ? '' : `<div class="modal-price">${formatPrice(product.priceCents)}${product.priceIsExample ? '<small>Preço ilustrativo</small>' : ''}</div>`}${buy}</div>
 </div></div>`;
-    showLayer(productModal);
+    showLayer(productModal, trigger);
   }
 
-  function setFilter(filter, scroll = false) {
+  function setFilter(filter, focusFilter = false) {
     state.filter = filter;
     renderProducts();
-    if (scroll) $('#catalogo').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    if (focusFilter) $('[data-filter].is-active').focus();
   }
 
   function closeMenu() {
@@ -294,9 +314,9 @@
     const actionButton = event.target.closest('[data-action]');
     if (actionButton) {
       const { action, id } = actionButton.dataset;
-      if (action === 'add') addItem(id);
-      else if (action === 'favorite') toggleFavorite(id);
-      else if (action === 'details') openDetails(id);
+      if (action === 'add') addItem(id, actionButton);
+      else if (action === 'favorite') toggleFavorite(id, actionButton);
+      else if (action === 'details') openDetails(id, actionButton);
       else if (action === 'minus') changeQty(id, -1);
       else if (action === 'plus') changeQty(id, 1);
       else if (action === 'remove') removeItem(id);
@@ -307,17 +327,23 @@
     if (event.target.closest('[data-close-modal]')) hideLayers();
   });
 
-  $('#open-cart').addEventListener('click', openCart);
+  $('#open-cart').addEventListener('click', (event) => openCart(event.currentTarget));
   $('#close-cart').addEventListener('click', () => hideLayers());
   $('#open-checkout').addEventListener('click', openCheckout);
   $('#empty-browse').addEventListener('click', () => {
-    hideLayers(); $('#catalogo').scrollIntoView({ behavior: 'smooth' });
+    hideLayers({ restoreFocus: false });
+    focusBeforeLayer = null;
+    $('#catalog-title').focus();
   });
-  $('#back-to-cart').addEventListener('click', openCart);
+  $('#back-to-cart').addEventListener('click', () => {
+    openCart();
+    $('#open-checkout').focus();
+  });
   $('#favorites-shortcut').addEventListener('click', () => setFilter('favoritos', true));
   $('#search-books').addEventListener('input', (event) => { state.search = event.target.value; renderProducts(); });
   $('#reset-filters').addEventListener('click', () => {
     state.search = ''; $('#search-books').value = ''; setFilter('todos');
+    $('[data-filter="todos"]').focus();
   });
   cartOverlay.addEventListener('click', () => hideLayers());
   modalOverlay.addEventListener('click', () => hideLayers());
@@ -347,6 +373,17 @@
 
   // Tema claro e escuro
   const themeToggle = $('#theme-toggle');
+  const mobileHeader = matchMedia('(max-width: 900px)');
+  const themeHome = themeToggle.previousElementSibling;
+  const headerActions = $('.header-actions');
+
+  function placeThemeToggle() {
+    // Move o mesmo controle para manter seus eventos e seu foco ao mudar a largura.
+    const hadFocus = document.activeElement === themeToggle;
+    if (mobileHeader.matches) headerActions.append(themeToggle);
+    else themeHome.after(themeToggle);
+    if (hadFocus) themeToggle.focus({ preventScroll: true });
+  }
   const themeStorageKey = 'editora-insonia-theme';
   let lightTheme = false;
   try { lightTheme = localStorage.getItem(themeStorageKey) === 'light'; }
@@ -359,6 +396,8 @@
   }
 
   applyTheme();
+  placeThemeToggle();
+  mobileHeader.addEventListener('change', placeThemeToggle);
   themeToggle.hidden = false;
   themeToggle.addEventListener('click', () => {
     lightTheme = !lightTheme;
@@ -368,5 +407,6 @@
   });
 
   loadState();
-  renderAll();
+  renderHeader();
+  renderProducts();
 })();
