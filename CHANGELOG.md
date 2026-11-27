@@ -1,5 +1,26 @@
 # Histórico
 
+## Integração da homologação
+
+- Menu animado, brasas, relógio da madrugada, sinos e voo até a sacola integrados aos componentes homologados.
+- A lanterna de `efeitos.js` usa o banner oficial. A cópia isolada foi removida para evitar dois efeitos simultâneos.
+- Áudio dos corvos, fichas, catálogo e tema responsivo mantidos conforme a homologação.
+
+## Homologação editorial
+
+- Hero alinhado às demais seções, com lua mais visível, capa maior no celular e acesso à ficha integrado.
+- Marca, navegação, informações do catálogo, moldura da autora e estados de filtro e áudio refinados.
+- Miniaturas estáticas na sacola e correções de foco em favoritos, quantidades e transições entre ficha, sacola e resumo.
+- Removidos estilos sem referências das capas artificiais antigas.
+
+## Refinamento editorial
+
+- Banner estrelado com tratamento único de contraste, Hero mais compacto e capa plana com acesso à ficha.
+- WebP compartilhado da capa de Gargoyle Game, etiquetas oficiais da campanha e uma ação de detalhes por livro.
+- Card da trilogia visível no celular, Instagram da autora e comunicação de prévia revisada.
+- Som dos corvos começa desligado, com preferência local e volume reduzido. A revoada e a renderização permanecem no mesmo código.
+- Favicon com a marca oficial, metadados para compartilhamento e `noindex` durante a homologação.
+
 ## 6.4.2
 - Menu do topo com letras que giram no hover e revelam nomes sombrios (`menu.js`).
 - Lanterna e brasas no banner, relógio da insônia com olho sonolento de madrugada, sinos na ficha do Gargoyle Game e livro voando até a sacola (`efeitos.js`).

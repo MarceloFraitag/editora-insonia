@@ -176,21 +176,49 @@
   }
 
   // --- som: revoada de corvos (assets/corvos.mp3) ---
-  // O navegador só libera áudio depois de um clique, toque ou tecla na página.
+  const controleSom = document.getElementById('raven-sound');
+  const chaveSom = 'editora-insonia-raven-sound';
+  const AudioContextDisponivel = window.AudioContext || window.webkitAudioContext;
   let audio = null, saida = null, somBuf = null, carregando = false;
+  let tocando = null, pendente = null, ultimoSom = -Infinity;
+  let somAtivo = false;
+  try { somAtivo = localStorage.getItem(chaveSom) === 'on'; }
+  catch { /* A preferência vale nesta página se o navegador bloquear o armazenamento. */ }
+
+  if (controleSom && AudioContextDisponivel) {
+    controleSom.hidden = false;
+    controleSom.setAttribute('aria-pressed', String(somAtivo));
+    controleSom.addEventListener('click', () => {
+      somAtivo = !somAtivo;
+      controleSom.setAttribute('aria-pressed', String(somAtivo));
+      try { localStorage.setItem(chaveSom, somAtivo ? 'on' : 'off'); }
+      catch { /* Mantém a escolha para a sessão atual da página. */ }
+      if (saida) saida.gain.value = somAtivo ? 0.24 : 0;
+      if (somAtivo) prepararAudio();
+      else {
+        pendente = null;
+        tocando?.src.stop();
+        tocando = null;
+      }
+    });
+  }
+
+  // A preferência autoriza o som. A criação do contexto ainda depende de um gesto.
   function prepararAudio() {
-    const AC = window.AudioContext || window.webkitAudioContext;
-    if (!AC) return;
+    if (!somAtivo || !AudioContextDisponivel) return;
     try {
       if (!audio) {
-        audio = new AC();
-        saida = audio.createGain(); saida.gain.value = 0.8; saida.connect(audio.destination);
+        audio = new AudioContextDisponivel();
+        saida = audio.createGain(); saida.gain.value = 0.24; saida.connect(audio.destination);
       }
-      if (audio.state === 'suspended') audio.resume();
+      if (audio.state === 'suspended') audio.resume().catch(() => { pendente = null; });
       if (!somBuf && !carregando) {
         carregando = true;
         fetch('assets/corvos.mp3')
-          .then((r) => r.arrayBuffer())
+          .then((r) => {
+            if (!r.ok) throw new Error('Áudio da revoada indisponível.');
+            return r.arrayBuffer();
+          })
           .then((b) => new Promise((ok, erro) => audio.decodeAudioData(b, ok, erro)))
           .then((buf) => {
             somBuf = buf;
@@ -198,17 +226,20 @@
             if (pendente && performance.now() - pendente.em < 900) tocarRevoada(0, pendente.pan);
             pendente = null;
           })
-          .catch(() => { carregando = false; });
+          .catch(() => { carregando = false; pendente = null; });
       }
     } catch (_) { audio = null; }
   }
   ['pointerdown', 'keydown', 'touchstart'].forEach((ev) => addEventListener(ev, prepararAudio, { passive: true }));
 
-  let tocando = null, pendente = null;
   function tocarRevoada(qtd, pan) {
+    if (!somAtivo) return;
     if (audio && !somBuf && carregando) { pendente = { pan, em: performance.now() }; return; }
     if (!audio || audio.state !== 'running' || !somBuf) return;
     const t = audio.currentTime + 0.01;
+    // A passagem rápida por várias cartas não acumula uma sequência de sons.
+    if (t - ultimoSom < 0.35) return;
+    ultimoSom = t;
     // se já houver uma revoada tocando, ela sai de cena antes da nova entrar
     if (tocando) {
       try {

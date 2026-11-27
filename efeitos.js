@@ -12,7 +12,8 @@
     const luz = document.createElement('div');
     luz.className = 'lanterna';
     luz.setAttribute('aria-hidden', 'true');
-    hero.querySelector('.hero-grain')?.after(luz);
+    // O banner oficial usa a camada de fundo como ponto de inserção da luz.
+    hero.querySelector('.hero-backdrop')?.after(luz);
     let alvoX = 0.36, alvoY = 0.46, x = alvoX, y = alvoY, ativa = false;
     const mover = (cx, cy) => {
       const r = hero.getBoundingClientRect();

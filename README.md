@@ -1,10 +1,10 @@
 # Editora Insônia
 
-Protótipo do catálogo de livros físicos da Editora Insônia, feito em HTML, CSS e JavaScript. A página destaca Gargoyle Game, de Sabine Vecchi, com a capa oficial e o banner do corvo. O catálogo tem busca, filtros, favoritos, cartas de tarô interativas e uma sacola de demonstração.
+Prévia do catálogo de livros físicos da Editora Insônia, feita em HTML, CSS e JavaScript. A página usa o banner estrelado oficial e destaca a chegada de Gargoyle Game à editora em 2027. O catálogo tem busca, filtros, favoritos, cartas de tarô interativas e uma sacola de demonstração.
 
 ## Rodar localmente
 
-Abra `index.html` no navegador. O projeto roda sem instalar dependências ou gerar um build. Para servir a pasta por HTTP, execute na raiz:
+O projeto roda sem instalar dependências ou gerar um build. Sirva a pasta por HTTP para que a revoada possa carregar o áudio. Na raiz, execute:
 
 ```sh
 python -m http.server 8000
@@ -41,6 +41,8 @@ O campo `artwork` escolhe as imagens da frente e do verso:
 
 Passe o mouse para revelar a carta. Clique, toque, Enter ou Espaço alternam o estado fixado. O recorte das margens das cartas fica em `.tarot-face.is-tarot img`.
 
+O Hero e a ficha de Gargoyle Game usam a mesma capa WebP de 720 px de largura. O Hero, a ficha e o catálogo podem reaproveitar a mesma requisição, e o JPG original permanece como alternativa para navegadores sem WebP. O botão na capa abre a ficha pelo mesmo mecanismo dos botões do catálogo. A prévia usa `noindex`; revise essa configuração e a URL de compartilhamento quando o domínio oficial for definido.
+
 ## Visualização no celular
 
 Em telas estreitas, o catálogo organiza os filtros em duas colunas. Em paisagem, a abertura usa duas colunas quando há espaço. Os detalhes dos livros e o resumo do pedido mantêm o botão de fechar visível durante a rolagem, e o chat se ajusta à altura da tela.
@@ -51,11 +53,11 @@ No menu do topo, as letras giram no hover e revelam um nome sombrio (Catálogo v
 
 `efeitos.js` cuida do resto da atmosfera: no banner, o ponteiro funciona como lanterna e brasas rosadas sobem do fundo. Entre meia-noite e 5h, o aviso do topo mostra a hora ("São 2h14. Só mais um capítulo?") e o olho pisca mais devagar, como quem está com sono. Ao abrir a ficha do Gargoyle Game, um sino distante dobra duas vezes (som sintetizado no navegador, sem arquivo). Ao adicionar um livro, a capa voa até a sacola deixando penas e o contador pulsa. Com movimento reduzido no sistema, a lanterna fica parada e as brasas e o voo não aparecem.
 
-O botão de lua e sol no canto inferior direito alterna entre os temas escuro e claro. O navegador guarda a preferência em `editora-insonia-theme` e mantém favoritos e sacola em `editora-insonia-v5-demo`.
+O botão de lua e sol alterna entre os temas escuro e claro. Fica no cabeçalho em telas de até 900 px e no canto inferior direito nas demais. O navegador guarda a preferência em `editora-insonia-theme` e mantém favoritos e sacola em `editora-insonia-v5-demo`.
 
-O botão do olho no canto inferior direito abre um chat de prévia. As respostas ficam na lista `respostas` de `chat.js` e não há atendimento real conectado.
+O olho flutuante abre um chat de prévia. As respostas ficam na lista `respostas` de `chat.js` e não há atendimento real conectado.
 
-Ao revelar uma carta, corvos saem de trás dela. O som (`assets/corvos.mp3`) só toca depois do primeiro clique, toque ou tecla na página, por regra dos navegadores, e precisa da página servida por HTTP. Com `prefers-reduced-motion` ativo, corvos, inclinação e animações de fundo ficam desligados.
+Ao revelar uma carta, corvos saem de trás dela. O som começa desligado. O botão “Som dos corvos”, no catálogo, guarda a escolha em `editora-insonia-raven-sound`. Com o som habilitado, o navegador ainda exige um gesto para iniciar o áudio. O ganho é de 0,24, e disparos próximos são limitados. A preferência de movimento reduzido já desativa a revoada e a inclinação das cartas.
 
 A sacola e o resumo do pedido são simulações. A etapa de compra está prevista para a integração com WooCommerce. Veja o [roteiro de integração](docs/INTEGRACAO-WOOCOMMERCE.md).
 
@@ -74,4 +76,4 @@ node --check menu.js
 node --check efeitos.js
 ```
 
-No navegador, confira a busca, os filtros, a virada das cartas, a sacola e o fechamento dos diálogos com Escape. Recarregue a página para conferir a preferência de tema e teste o layout em celular e desktop.
+No navegador, confira a busca, os filtros, a virada das cartas e a sacola. Use Enter na capa do Hero, navegue com Tab na ficha e feche com Escape para conferir a devolução do foco. Teste também ficha → sacola → resumo e a remoção do último favorito. A sacola usa miniaturas sem interação. Recarregue a página para conferir as preferências de tema e áudio.

@@ -6,7 +6,7 @@
 
 - **WordPress:** CMS e publicação de conteúdo editorial.
 - **WooCommerce:** produtos físicos, catálogo, atributos, estoque, carrinho, checkout, impostos/frete e pedidos.
-- **Tema próprio ou tema filho:** traduzir o HTML/CSS da V6.3 para templates do WordPress e estilos de blocos/áreas WooCommerce compatíveis.
+- **Tema próprio ou tema filho:** traduzir o HTML/CSS da prévia atual para templates do WordPress e estilos de blocos/áreas WooCommerce compatíveis.
 - **Plugins de pagamento e entrega:** escolher provedores compatíveis após confirmar CNPJ, logística e conta da editora. Nunca colocar credenciais no tema.
 
 ## 2. Mapeamento do protótipo
@@ -56,3 +56,7 @@ Validar para cada livro: nome, autor, gênero, descrição, ISBN/EAN (se dispon�
 ## 6. Observação de segurança
 
 Não criar uma API de pagamento própria em `script.js`; não armazenar dados de cartão em `localStorage`; não usar `catalog.js` como fonte de preço ou estoque durante a venda. Preço, frete e confirmação de pedido devem ser calculados/validados no ambiente do WooCommerce e provedores configurados.
+
+Na migração, vincular a capa do Hero à página oficial de Gargoyle Game. Preço, estoque, data de chegada, ISBN, classificação indicativa e dados da edição dependem de confirmação. A campanha de 2027 informa a chegada à Editora Insônia. Manter o filtro comercial ligado aos dados confirmados no WooCommerce.
+
+Revisar `noindex` e o endereço da imagem de compartilhamento na configuração do domínio oficial.
