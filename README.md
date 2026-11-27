@@ -24,6 +24,8 @@ Abra [localhost:8000](http://localhost:8000).
 | `chat.js` | Chat de prévia aberto pelo olho, com respostas prontas |
 | `corvos.js` | Revoada de corvos e som ao revelar uma carta |
 | `cards.js` | Inclinação 3D das cartas e brilho dos cards |
+| `menu.js` | Troca animada dos nomes do menu no hover |
+| `efeitos.js` | Lanterna e brasas no banner, relógio da insônia, sinos e livro voando até a sacola |
 | `assets/` | Artes do banner, capa, cartas e marca |
 | `CHANGELOG.md` | Histórico das versões |
 
@@ -41,11 +43,19 @@ Passe o mouse para revelar a carta. Clique, toque, Enter ou Espaço alternam o e
 
 O Hero e a ficha de Gargoyle Game usam a mesma capa WebP de 720 px de largura. O Hero, a ficha e o catálogo podem reaproveitar a mesma requisição, e o JPG original permanece como alternativa para navegadores sem WebP. O botão na capa abre a ficha pelo mesmo mecanismo dos botões do catálogo. A prévia usa `noindex`; revise essa configuração e a URL de compartilhamento quando o domínio oficial for definido.
 
+## Visualização no celular
+
+Em telas estreitas, o catálogo organiza os filtros em duas colunas. Em paisagem, a abertura usa duas colunas quando há espaço. Os detalhes dos livros e o resumo do pedido mantêm o botão de fechar visível durante a rolagem, e o chat se ajusta à altura da tela.
+
 ## Tema, olho e corvos
 
-O botão de lua e sol no canto inferior direito alterna entre os temas escuro e claro. O navegador guarda a preferência em `editora-insonia-theme` e mantém favoritos e sacola em `editora-insonia-v5-demo`.
+No menu do topo, as letras giram no hover e revelam um nome sombrio (Catálogo vira Grimório, por exemplo). Os pares ficam no objeto `trocas` de `menu.js`; leitores de tela continuam lendo o nome original.
 
-Acima dele, o olho abre um chat de prévia. As respostas ficam na lista `respostas` de `chat.js` e não há atendimento real conectado.
+`efeitos.js` cuida do resto da atmosfera: no banner, o ponteiro funciona como lanterna e brasas rosadas sobem do fundo. Entre meia-noite e 5h, o aviso do topo mostra a hora ("São 2h14. Só mais um capítulo?") e o olho pisca mais devagar, como quem está com sono. Ao abrir a ficha do Gargoyle Game, um sino distante dobra duas vezes (som sintetizado no navegador, sem arquivo). Ao adicionar um livro, a capa voa até a sacola deixando penas e o contador pulsa. Com movimento reduzido no sistema, a lanterna fica parada e as brasas e o voo não aparecem.
+
+O botão de lua e sol alterna entre os temas escuro e claro. Fica no cabeçalho em telas de até 900 px e no canto inferior direito nas demais. O navegador guarda a preferência em `editora-insonia-theme` e mantém favoritos e sacola em `editora-insonia-v5-demo`.
+
+O olho flutuante abre um chat de prévia. As respostas ficam na lista `respostas` de `chat.js` e não há atendimento real conectado.
 
 Ao revelar uma carta, corvos saem de trás dela. O som começa desligado. O botão “Som dos corvos”, no catálogo, guarda a escolha em `editora-insonia-raven-sound`. Com o som habilitado, o navegador ainda exige um gesto para iniciar o áudio. O ganho é de 0,24, e disparos próximos são limitados. A preferência de movimento reduzido já desativa a revoada e a inclinação das cartas.
 
@@ -62,6 +72,8 @@ node --check olho.js
 node --check chat.js
 node --check corvos.js
 node --check cards.js
+node --check menu.js
+node --check efeitos.js
 ```
 
 No navegador, confira a busca, os filtros, a virada das cartas e a sacola. Use Enter na capa do Hero, navegue com Tab na ficha e feche com Escape para conferir a devolução do foco. Teste também ficha → sacola → resumo e a remoção do último favorito. A sacola usa miniaturas sem interação. Recarregue a página para conferir as preferências de tema e áudio.

@@ -1,5 +1,11 @@
 # Histórico
 
+## Integração da homologação
+
+- Menu animado, brasas, relógio da madrugada, sinos e voo até a sacola integrados aos componentes homologados.
+- A lanterna de `efeitos.js` usa o banner oficial. A cópia isolada foi removida para evitar dois efeitos simultâneos.
+- Áudio dos corvos, fichas, catálogo e tema responsivo mantidos conforme a homologação.
+
 ## Homologação editorial
 
 - Hero alinhado às demais seções, com lua mais visível, capa maior no celular e acesso à ficha integrado.
@@ -14,6 +20,15 @@
 - Card da trilogia visível no celular, Instagram da autora e comunicação de prévia revisada.
 - Som dos corvos começa desligado, com preferência local e volume reduzido. A revoada e a renderização permanecem no mesmo código.
 - Favicon com a marca oficial, metadados para compartilhamento e `noindex` durante a homologação.
+
+## 6.4.2
+- Menu do topo com letras que giram no hover e revelam nomes sombrios (`menu.js`).
+- Lanterna e brasas no banner, relógio da insônia com olho sonolento de madrugada, sinos na ficha do Gargoyle Game e livro voando até a sacola (`efeitos.js`).
+- Entre 851 e 1080 px de largura, Favoritos e Sacola aparecem só como ícone para o menu caber na barra.
+
+## 6.4.1
+- Abertura, navegação, filtros, ficha dos livros, sacola e chat ajustados para telas de celular.
+- Removido o arquivo assets/eye-pointer.png.
 
 ## 6.4
 - Menu, rótulos, selos e botões em Cinzel, para conversar com a logo.
