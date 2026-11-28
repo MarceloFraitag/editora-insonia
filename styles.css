@@ -159,6 +159,69 @@ a.text-link:hover,.text-link:hover{color:var(--pink);text-decoration:underline}
 }
 :is(.hero-copy h1,.section-intro h2,.manifesto-left h2,.faq-block h3,.footer-quote) em{font-weight:inherit;font-style:normal}
 
+/* Prévia editorial da pré-venda */
+.presale-preview{
+  background:var(--theme-surface);
+  border-bottom:1px solid var(--line);
+  padding-block:clamp(38px,5.8vw,80px);
+}
+.presale-preview-inner{
+  display:grid;
+  grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);
+  align-items:center;
+  gap:clamp(26px,5vw,72px);
+}
+.presale-preview h2{
+  margin:0;
+  font:400 clamp(32px,3.75vw,54px)/1.08 var(--editorial);
+  letter-spacing:-.035em;
+  text-wrap:balance;
+}
+.presale-author{margin:8px 0 0;color:var(--muted);font-size:18px}
+.presale-quote{margin:18px 0 0;font:400 clamp(17px,2vw,24px)/1.35 var(--editorial);color:var(--pink)}
+.presale-date,.presale-status{margin:0;color:var(--muted);font:400 13px/1.55 var(--functional)}
+.presale-date time{color:var(--cream);font-weight:500}
+.presale-timer{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  margin:12px 0 0;
+  border-block:1px solid var(--line);
+}
+.presale-timer>div{display:flex;flex-direction:column;padding:12px 0;text-align:center}
+.presale-timer>div+div{border-inline-start:1px solid var(--line)}
+.presale-timer dt{color:var(--muted);font:400 clamp(10px,1.1vw,12px)/1.3 var(--functional)}
+.presale-timer dd{
+  order:-1;
+  margin:0 0 3px;
+  font:500 clamp(20px,3.2vw,38px)/1.15 var(--functional);
+  font-variant-numeric:tabular-nums;
+}
+.presale-status:not(:empty){margin-top:10px;color:var(--pink);font-weight:500}
+@media(max-width:700px){
+  .presale-preview-inner{grid-template-columns:minmax(0,1fr)}
+}
+
+/* Experimento de continuidade entre a pré-venda e a abertura. */
+.campaign-backdrop{
+  background:
+    linear-gradient(180deg,#160a1d80,#160a1d69 46%,#160a1dda),
+    url("assets/22.jpg") left center / cover no-repeat,
+    #160a1d;
+}
+.campaign-backdrop>.presale-preview{
+  --cream:#fbf3f6;
+  --muted:#ead1e3;
+  --pink:#f699d7;
+  --line:#e8c3df50;
+  background:transparent;
+  color:var(--cream);
+  border-bottom-color:transparent;
+}
+.campaign-backdrop>.hero{background:transparent}
+.campaign-backdrop .hero-backdrop{background:none}
+/* Suaviza apenas a entrada da camada de luz sobre o fundo compartilhado. */
+.campaign-backdrop .lanterna{mask-image:linear-gradient(transparent,#000 clamp(28px,4vw,58px))}
+
 /* Catálogo */
 .catalog-section{padding-block:var(--section-space)}
 .section-intro{display:flex;justify-content:space-between;align-items:center;gap:30px;margin-bottom:34px}
