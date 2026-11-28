@@ -102,7 +102,7 @@
         <div>${coverMarkup(product)}</div>
       </div>
       <div class="product-content"><p class="product-series">${escape(product.series)} · ${escape(product.volume)}</p>
-        <h3>${escape(product.title)}</h3><p class="product-author">${escape(product.author)}</p>
+        <h3>${escape(product.title)}</h3><p class="product-author editorial-name">${escape(product.author)}</p>
         <div class="product-meta-row">${price}<span class="product-meta-note">Livro físico</span></div>
         <div class="product-actions${buy ? '' : ' product-actions--single'}">${buy}<button class="${detailsClass}" type="button" data-action="details" data-id="${escape(product.id)}" aria-label="Ver ficha de ${escape(product.title)}" aria-haspopup="dialog">${buy ? 'Ficha' : 'Ver ficha'} <span aria-hidden="true">↗</span></button></div>
       </div>
@@ -145,7 +145,7 @@
       ? coverFrontMarkup(true, '')
       : '<img src="assets/tarot-back.jpg" width="680" height="1135" alt="">';
     return `<li class="drawer-item" data-id="${escape(product.id)}"><div class="drawer-item-art">${thumbnail}</div>
-      <div class="drawer-item-main"><h3>${escape(product.title)}</h3><p class="drawer-byline">${escape(product.author)} · Físico</p>
+      <div class="drawer-item-main"><h3>${escape(product.title)}</h3><p class="drawer-byline"><span class="editorial-name">${escape(product.author)}</span> · Físico</p>
       <p class="drawer-item-price">${formatPrice(product.priceCents * qty)}</p>
       <div class="qty-row"><div class="quantity-controls" aria-label="Quantidade de ${escape(product.title)}">
       <button type="button" data-action="minus" data-id="${escape(product.id)}" aria-label="Diminuir quantidade de ${escape(product.title)}">−</button>
@@ -170,7 +170,7 @@
     $('#checkout-items').innerHTML = Object.entries(state.cart).map(([id, qty]) => {
       const product = byId.get(id);
       if (!product) return '';
-      return `<div class="checkout-item"><span>${escape(product.title)} (físico) × ${qty}</span><strong>${formatPrice(product.priceCents * qty)}</strong></div>`;
+      return `<div class="checkout-item"><span><span class="editorial-name">${escape(product.title)}</span> (físico) × ${qty}</span><strong>${formatPrice(product.priceCents * qty)}</strong></div>`;
     }).join('');
     $('#checkout-subtotal').textContent = formatPrice(subtotal());
   }
@@ -290,7 +290,7 @@
     $('#product-modal-content').innerHTML = `<div class="modal-product-layout">
       <div class="modal-product-art"><div>${coverMarkup(product)}</div></div>
       <div class="modal-product-info"><p class="eyebrow">${escape(product.series)} · ${escape(product.volume)}</p>
-      <h2 id="product-modal-title">${escape(product.title)}</h2><p class="product-author">por ${escape(product.author)}</p>
+      <h2 id="product-modal-title">${escape(product.title)}</h2><p class="product-author">por <span class="editorial-name">${escape(product.author)}</span></p>
       ${product.tropes ? `<ul class="trope-list">${product.tropes.map(t => `<li>${escape(t)}</li>`).join('')}</ul>` : ''}<p class="modal-description">${escape(product.description)}</p><p class="modal-description-secondary">${escape(product.details)}</p>
       <dl class="modal-specs">${specs.map(([name, value]) => `<div><dt>${escape(name)}</dt><dd>${escape(value)}</dd></div>`).join('')}</dl>
       <div class="modal-buy-row">${product.priceCents === null ? '' : `<div class="modal-price">${formatPrice(product.priceCents)}${product.priceIsExample ? '<small>Preço ilustrativo</small>' : ''}</div>`}${buy}</div>
@@ -392,7 +392,7 @@
   function applyTheme() {
     document.documentElement.classList.toggle('theme-light', lightTheme);
     themeToggle.setAttribute('aria-pressed', String(lightTheme));
-    $('meta[name="theme-color"]').content = lightTheme ? '#f0dbe8' : '#180a1b';
+    $('meta[name="theme-color"]').content = getComputedStyle(document.documentElement).getPropertyValue('--theme-header').trim();
   }
 
   applyTheme();
