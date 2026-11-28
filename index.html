@@ -27,6 +27,7 @@
   <script src="cards.js" defer></script>
   <script src="menu.js" defer></script>
   <script src="efeitos.js" defer></script>
+  <script src="countdown.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
@@ -90,37 +91,61 @@
   </div>
 
   <main id="conteudo">
-    <!-- Hero -->
-    <section class="hero" id="inicio" aria-labelledby="hero-title">
-      <div class="hero-backdrop" aria-hidden="true"></div>
-      <div class="hero-container">
-        <div class="hero-copy">
-          <p class="eyebrow">Editora Insônia apresenta</p>
-          <h1 id="hero-title">A noite é longa.<br> <em>As histórias também.</em></h1>
-          <p class="hero-description">Para quem se apaixona pelo perigo, se perde nos segredos e promete ler só mais um capítulo.</p>
-          <div class="hero-actions">
-            <a class="button button-primary" href="#catalogo">Explorar livros físicos <span aria-hidden="true">↗</span></a>
-            <a class="text-link" href="#universo">Conhecer a editora <span aria-hidden="true">→</span></a>
+    <div class="campaign-backdrop">
+      <!-- Prévia editorial da campanha em homologação -->
+      <section class="presale-preview" aria-labelledby="presale-title" data-countdown>
+        <div class="section-wrap presale-preview-inner">
+          <div>
+            <p class="eyebrow">Pré-venda</p>
+            <h2 id="presale-title">Não Descanse em Paz</h2>
+            <p class="presale-author editorial-name">Júlia Lopes</p>
+            <p class="presale-quote">Quantas vidas você tem para perder?</p>
           </div>
-          <p class="hero-annotation">Seu próximo vício literário começa aqui.</p>
+          <div>
+            <!-- Horário provisório: 00h00 de Brasília (UTC−03:00), sujeito à confirmação da editora. -->
+            <p class="presale-date">Abertura em <time datetime="2026-12-12T00:00:00-03:00">12 de dezembro de 2026</time></p>
+            <dl class="presale-timer" role="timer" aria-label="Tempo até a abertura da pré-venda" aria-live="off" hidden>
+              <div><dt>Dias</dt><dd data-countdown-unit="days">00</dd></div>
+              <div><dt>Horas</dt><dd data-countdown-unit="hours">00</dd></div>
+              <div><dt>Minutos</dt><dd data-countdown-unit="minutes">00</dd></div>
+              <div><dt>Segundos</dt><dd data-countdown-unit="seconds">00</dd></div>
+            </dl>
+            <p class="presale-status" role="status" data-countdown-status></p>
+          </div>
         </div>
-        <figure class="hero-art">
-          <button class="hero-book-link" type="button" data-action="details" data-id="gargoyle-game-fisico" aria-label="Ver ficha de Gargoyle Game" aria-haspopup="dialog">
-            <picture>
-              <source srcset="assets/gargoyle-game.webp" type="image/webp">
-              <img src="assets/gargoyle-game.jpg" width="1890" height="2717" fetchpriority="high" alt="Capa de Gargoyle Game, com capacete dourado e taco de lacrosse.">
-            </picture>
-            <span class="hero-book-action" aria-hidden="true">Ver ficha ↗</span>
-          </button>
-          <figcaption class="hero-campaign">
-            <span class="hero-campaign-label">Em 2027 na Insônia</span>
-            <cite>Gargoyle Game</cite>
-            <span><span class="editorial-name">Sabine Vecchi</span> · <span class="hero-campaign-series">As Gárgulas — Volume 1</span></span>
-          </figcaption>
-        </figure>
-      </div>
-    </section>
+      </section>
 
+      <!-- Hero -->
+      <section class="hero" id="inicio" aria-labelledby="hero-title">
+        <div class="hero-backdrop" aria-hidden="true"></div>
+        <div class="hero-container">
+          <div class="hero-copy">
+            <p class="eyebrow">Editora Insônia apresenta</p>
+            <h1 id="hero-title">A noite é longa.<br> <em>As histórias também.</em></h1>
+            <p class="hero-description">Para quem se apaixona pelo perigo, se perde nos segredos e promete ler só mais um capítulo.</p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#catalogo">Explorar livros físicos <span aria-hidden="true">↗</span></a>
+              <a class="text-link" href="#universo">Conhecer a editora <span aria-hidden="true">→</span></a>
+            </div>
+            <p class="hero-annotation">Seu próximo vício literário começa aqui.</p>
+          </div>
+          <figure class="hero-art">
+            <button class="hero-book-link" type="button" data-action="details" data-id="gargoyle-game-fisico" aria-label="Ver ficha de Gargoyle Game" aria-haspopup="dialog">
+              <picture>
+                <source srcset="assets/gargoyle-game.webp" type="image/webp">
+                <img src="assets/gargoyle-game.jpg" width="1890" height="2717" fetchpriority="high" alt="Capa de Gargoyle Game, com capacete dourado e taco de lacrosse.">
+              </picture>
+              <span class="hero-book-action" aria-hidden="true">Ver ficha ↗</span>
+            </button>
+            <figcaption class="hero-campaign">
+              <span class="hero-campaign-label">Em 2027 na Insônia</span>
+              <cite>Gargoyle Game</cite>
+              <span><span class="editorial-name">Sabine Vecchi</span> · <span class="hero-campaign-series">As Gárgulas — Volume 1</span></span>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+    </div>
 
     <!-- Catálogo -->
     <section class="catalog-section section-wrap" id="catalogo" aria-labelledby="catalog-title">
