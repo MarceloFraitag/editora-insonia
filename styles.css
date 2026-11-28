@@ -203,6 +203,8 @@ a.text-link:hover,.text-link:hover{color:var(--pink);text-decoration:underline}
 
 /* Experimento de continuidade entre a pré-venda e a abertura. */
 .campaign-backdrop{
+  position:relative;
+  isolation:isolate;
   background:
     linear-gradient(180deg,#160a1d80,#160a1d69 46%,#160a1dda),
     url("assets/22.jpg") left center / cover no-repeat,
@@ -217,10 +219,9 @@ a.text-link:hover,.text-link:hover{color:var(--pink);text-decoration:underline}
   color:var(--cream);
   border-bottom-color:transparent;
 }
-.campaign-backdrop>.hero{background:transparent}
+.campaign-backdrop .presale-preview-inner{position:relative;z-index:2}
+.campaign-backdrop>.hero{z-index:2;background:transparent}
 .campaign-backdrop .hero-backdrop{background:none}
-/* Suaviza apenas a entrada da camada de luz sobre o fundo compartilhado. */
-.campaign-backdrop .lanterna{mask-image:linear-gradient(transparent,#000 clamp(28px,4vw,58px))}
 
 /* Catálogo */
 .catalog-section{padding-block:var(--section-space)}
