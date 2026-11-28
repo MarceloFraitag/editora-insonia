@@ -1,6 +1,6 @@
 # Editora Insônia
 
-Prévia do catálogo de livros físicos da Editora Insônia, feita em HTML, CSS e JavaScript. A página usa o banner estrelado oficial e destaca a chegada de Gargoyle Game à editora em 2027. O catálogo tem busca, filtros, favoritos, cartas de tarô interativas e uma sacola de demonstração.
+Prévia do catálogo de livros físicos da Editora Insônia, feita em HTML, CSS e JavaScript. A abertura usa o banner estrelado oficial e destaca a chegada de Gargoyle Game em 2027. O catálogo tem busca, filtros, favoritos, cartas de tarô interativas e uma sacola de demonstração.
 
 ## Rodar localmente
 
@@ -26,7 +26,7 @@ Abra [localhost:8000](http://localhost:8000).
 | `cards.js` | Inclinação 3D das cartas e brilho dos cards |
 | `menu.js` | Troca animada dos nomes do menu no hover |
 | `efeitos.js` | Lanterna e brasas no banner, relógio da insônia, sinos e livro voando até a sacola |
-| `assets/` | Artes do banner, capa, cartas e marca |
+| `assets/` | Artes de capa e cartas, logotipo, favicon em `brand/` e fontes locais em `fonts/` |
 | `CHANGELOG.md` | Histórico das versões |
 
 Em `catalog.js`, use `description` para a chamada do card, `details` para a sinopse da ficha e `tropes` para os temas do livro. Os preços ficam em `priceCents`: `6990` equivale a R$ 69,90 e `null` exibe “Preço a confirmar”. Preserve o `id` de cada livro para manter a associação com favoritos e sacola.
@@ -42,6 +42,8 @@ O campo `artwork` escolhe as imagens da frente e do verso:
 Passe o mouse para revelar a carta. Clique, toque, Enter ou Espaço alternam o estado fixado. O recorte das margens das cartas fica em `.tarot-face.is-tarot img`.
 
 O Hero e a ficha de Gargoyle Game usam a mesma capa WebP de 720 px de largura. O Hero, a ficha e o catálogo podem reaproveitar a mesma requisição, e o JPG original permanece como alternativa para navegadores sem WebP. O botão na capa abre a ficha pelo mesmo mecanismo dos botões do catálogo. A prévia usa `noindex`; revise essa configuração e a URL de compartilhamento quando o domínio oficial for definido.
+
+As cores RGB da marca ficam nas variáveis `--brand-*` em `styles.css`. A Faculty Glyphic Regular e a Bounded variável são carregadas localmente, com as respectivas licenças OFL em `assets/fonts/`. Aplique ou reverta o teste tipográfico pelas variáveis `--editorial` e `--functional` em `styles.css`.
 
 ## Visualização no celular
 
