@@ -80,7 +80,7 @@ a.text-link:hover,.text-link:hover{color:var(--pink);text-decoration:underline}
 .brand{display:flex;align-items:center;flex:0 0 auto;min-width:0}
 .brand img{display:block;width:160px;height:76px;object-fit:contain}
 .site-header .brand{justify-self:start;min-width:44px;min-height:44px;justify-content:center}
-.site-header .brand img{width:clamp(41.4px,4.6vw,55.2px);height:auto;filter:invert(1)}
+.site-header .brand img{width:clamp(96px,30vw,160px);height:calc(var(--header-height) - 4px);transform:scale(1.15)}
 .main-nav{display:flex;gap:clamp(18px,2.25vw,34px);align-items:center;white-space:nowrap;font:500 13px/1.35 var(--functional)}
 .main-nav a{min-height:44px;display:flex;align-items:center;color:var(--cream);transition:color .2s}
 .main-nav a:hover{color:var(--pink);text-decoration:underline;text-underline-offset:.35em}
@@ -498,8 +498,7 @@ body.is-locked .theme-toggle{visibility:hidden}
   --control-line:#967990;
   --focus:var(--theme-accent);
 }
-.theme-light .site-header .brand img{filter:none}
-.theme-light .site-footer .brand img{filter:brightness(0) saturate(100%) invert(14%) sepia(18%) saturate(2387%) hue-rotate(250deg) brightness(92%)}
+.theme-light :is(.site-header,.site-footer) .brand img{filter:brightness(0) saturate(100%) invert(14%) sepia(18%) saturate(2387%) hue-rotate(250deg) brightness(92%)}
 .theme-light .checkout-totals>div:last-child strong{color:var(--pink)}
 .theme-light .catalog-search input::-webkit-search-cancel-button{filter:grayscale(1)}
 /* Superfícies de arte e capas mantêm acabamento escuro nos dois temas. */
