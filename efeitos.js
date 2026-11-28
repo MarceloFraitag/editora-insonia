@@ -7,30 +7,29 @@
   const rnd = (a, b) => a + Math.random() * (b - a);
 
   // ---------- 1. Lanterna: o banner escurece e o ponteiro ilumina em volta ----------
-  const hero = $('.hero');
-  if (hero) {
+  function montarLanterna(area) {
     const luz = document.createElement('div');
     luz.className = 'lanterna';
     luz.setAttribute('aria-hidden', 'true');
-    // O banner oficial usa a camada de fundo como ponto de inserção da luz.
-    hero.querySelector('.hero-backdrop')?.after(luz);
+    area.prepend(luz);
+    if (calmo) return;
     let alvoX = 0.36, alvoY = 0.46, x = alvoX, y = alvoY, ativa = false;
     const mover = (cx, cy) => {
-      const r = hero.getBoundingClientRect();
+      const r = area.getBoundingClientRect();
       alvoX = (cx - r.left) / r.width; alvoY = (cy - r.top) / r.height;
       ativa = true;
     };
-    hero.addEventListener('pointermove', (e) => mover(e.clientX, e.clientY));
-    hero.addEventListener('pointerdown', (e) => mover(e.clientX, e.clientY));
-    hero.addEventListener('pointerleave', () => { alvoX = 0.36; alvoY = 0.46; ativa = false; });
+    area.addEventListener('pointermove', (e) => mover(e.clientX, e.clientY));
+    area.addEventListener('pointerdown', (e) => mover(e.clientX, e.clientY));
+    area.addEventListener('pointerleave', () => { alvoX = 0.36; alvoY = 0.46; ativa = false; });
     let antes = performance.now();
     const passo = (agora) => {
       const dt = Math.min((agora - antes) / 1000, 0.05); antes = agora;
-      const k = calmo ? 1 : 1 - Math.pow(0.002, dt);
+      const k = 1 - Math.pow(0.002, dt);
       x += (alvoX - x) * k; y += (alvoY - y) * k;
       // chama da vela: o raio treme um pouco
       const t = agora / 1000;
-      const tremor = calmo ? 0 : Math.sin(t * 7.3) * 5 + Math.sin(t * 13.1) * 3 + Math.sin(t * 2.1) * 6;
+      const tremor = Math.sin(t * 7.3) * 5 + Math.sin(t * 13.1) * 3 + Math.sin(t * 2.1) * 6;
       luz.style.setProperty('--lx', `${(x * 100).toFixed(2)}%`);
       luz.style.setProperty('--ly', `${(y * 100).toFixed(2)}%`);
       luz.style.setProperty('--lr', `${(ativa ? 250 : 330) + tremor}px`);
@@ -39,64 +38,76 @@
     let visivel = true, rodandoLuz = false;
     const iniciarLuz = () => { if (!rodandoLuz) { rodandoLuz = true; antes = performance.now(); requestAnimationFrame(passo); } };
 
-    // ---------- 2. Brasas: cinzas rosadas subindo atrás do corvo ----------
-    let iniciarBrasas = () => {};
-    if (!calmo) {
-      const tela = document.createElement('canvas');
-      tela.className = 'brasas';
-      tela.setAttribute('aria-hidden', 'true');
-      luz.after(tela);   // por cima da sombra da lanterna
-      const ctx = tela.getContext('2d');
-      let W = 0, H = 0, dpr = 1, rodando = false, ant = 0;
-      const brasas = [];
-      const ajustar = () => {
-        const r = hero.getBoundingClientRect();
-        dpr = Math.min(devicePixelRatio || 1, 2);
-        W = r.width; H = r.height;
-        tela.width = Math.round(W * dpr); tela.height = Math.round(H * dpr);
-      };
-      const nova = (inicio) => ({
-        x: rnd(0, W), y: inicio ? rnd(0, H) : H + rnd(0, 40),
-        vy: rnd(14, 38), fase: rnd(0, 6.28), amp: rnd(6, 22), r: rnd(1, 2.6),
-        vida: inicio ? rnd(1.5, 6) : 0, max: rnd(7, 14), brilho: rnd(0.6, 1)
-      });
-      ajustar();
-      addEventListener('resize', ajustar);
-      const qtd = () => (W < 600 ? 22 : 46);
-      for (let i = 0; i < qtd(); i++) brasas.push(nova(true));
-      const quadro = (agora) => {
-        const dt = Math.min((agora - ant) / 1000, 0.05); ant = agora;
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        ctx.clearRect(0, 0, W, H);
-        ctx.globalCompositeOperation = 'lighter';
-        for (let i = brasas.length - 1; i >= 0; i--) {
-          const b = brasas[i];
-          b.vida += dt; b.fase += dt * 1.3;
-          b.y -= b.vy * dt;
-          const px = b.x + Math.sin(b.fase) * b.amp;
-          const u = b.vida / b.max;
-          const a = Math.min(1, u * 4) * Math.max(0, 1 - u) * b.brilho * (0.7 + 0.3 * Math.sin(agora / 140 + b.fase * 3));
-          if (u >= 1 || b.y < -20) { brasas[i] = nova(false); continue; }
-          const g = ctx.createRadialGradient(px, b.y, 0, px, b.y, b.r * 6);
-          g.addColorStop(0, `rgba(255,190,225,${a})`);
-          g.addColorStop(0.3, `rgba(241,110,190,${a * 0.55})`);
-          g.addColorStop(1, 'rgba(201,60,145,0)');
-          ctx.fillStyle = g;
-          ctx.beginPath(); ctx.arc(px, b.y, b.r * 6, 0, Math.PI * 2); ctx.fill();
-        }
-        ctx.globalCompositeOperation = 'source-over';
-        if (visivel) requestAnimationFrame(quadro); else rodando = false;
-      };
-      iniciarBrasas = () => { if (!rodando) { rodando = true; ant = performance.now(); requestAnimationFrame(quadro); } };
-    }
-
-    // só anima enquanto o banner está na tela
     if ('IntersectionObserver' in window) {
-      new IntersectionObserver(([e]) => {
-        visivel = e.isIntersecting;
-        if (visivel) { iniciarLuz(); iniciarBrasas(); }
+      new IntersectionObserver(([entrada]) => {
+        visivel = entrada.isIntersecting;
+        if (visivel) iniciarLuz();
+      }).observe(area);
+    } else { iniciarLuz(); }
+  }
+
+  const hero = $('.hero');
+  const abertura = $('.campaign-backdrop') || hero;
+  if (abertura) montarLanterna(abertura);
+
+  // ---------- 2. Brasas: cinzas rosadas subindo atrás do corvo ----------
+  if (hero && !calmo) {
+    let visivel = true;
+    const tela = document.createElement('canvas');
+    tela.className = 'brasas';
+    tela.setAttribute('aria-hidden', 'true');
+    hero.querySelector('.hero-backdrop')?.after(tela);
+    const ctx = tela.getContext('2d');
+    let W = 0, H = 0, dpr = 1, rodando = false, ant = 0;
+    const brasas = [];
+    const ajustar = () => {
+      const r = hero.getBoundingClientRect();
+      dpr = Math.min(devicePixelRatio || 1, 2);
+      W = r.width; H = r.height;
+      tela.width = Math.round(W * dpr); tela.height = Math.round(H * dpr);
+    };
+    const nova = (inicio) => ({
+      x: rnd(0, W), y: inicio ? rnd(0, H) : H + rnd(0, 40),
+      vy: rnd(14, 38), fase: rnd(0, 6.28), amp: rnd(6, 22), r: rnd(1, 2.6),
+      vida: inicio ? rnd(1.5, 6) : 0, max: rnd(7, 14), brilho: rnd(0.6, 1)
+    });
+    ajustar();
+    addEventListener('resize', ajustar);
+    const qtd = () => (W < 600 ? 22 : 46);
+    for (let i = 0; i < qtd(); i++) brasas.push(nova(true));
+    const quadro = (agora) => {
+      const dt = Math.min((agora - ant) / 1000, 0.05); ant = agora;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, W, H);
+      ctx.globalCompositeOperation = 'lighter';
+      for (let i = brasas.length - 1; i >= 0; i--) {
+        const b = brasas[i];
+        b.vida += dt; b.fase += dt * 1.3;
+        b.y -= b.vy * dt;
+        const px = b.x + Math.sin(b.fase) * b.amp;
+        const u = b.vida / b.max;
+        const a = Math.min(1, u * 4) * Math.max(0, 1 - u) * b.brilho * (0.7 + 0.3 * Math.sin(agora / 140 + b.fase * 3));
+        if (u >= 1 || b.y < -20) { brasas[i] = nova(false); continue; }
+        const g = ctx.createRadialGradient(px, b.y, 0, px, b.y, b.r * 6);
+        g.addColorStop(0, `rgba(255,190,225,${a})`);
+        g.addColorStop(0.3, `rgba(241,110,190,${a * 0.55})`);
+        g.addColorStop(1, 'rgba(201,60,145,0)');
+        ctx.fillStyle = g;
+        ctx.beginPath(); ctx.arc(px, b.y, b.r * 6, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.globalCompositeOperation = 'source-over';
+      if (visivel) requestAnimationFrame(quadro); else rodando = false;
+    };
+    const iniciarBrasas = () => {
+      if (!rodando) { rodando = true; ant = performance.now(); requestAnimationFrame(quadro); }
+    };
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([entrada]) => {
+        visivel = entrada.isIntersecting;
+        if (visivel) iniciarBrasas();
       }).observe(hero);
-    } else { iniciarLuz(); iniciarBrasas(); }
+    } else { iniciarBrasas(); }
   }
 
   // ---------- 3. Relógio da insônia: depois da meia-noite o site percebe ----------
